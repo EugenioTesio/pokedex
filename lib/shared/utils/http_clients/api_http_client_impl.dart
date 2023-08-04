@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+// ignore: depend_on_referenced_packages
 import 'package:http/http.dart' as http;
 import 'package:pokedex/core/http_client/http_client.dart';
 
@@ -18,9 +19,9 @@ class ApiHttpClient implements IHttpClient {
 
   Uri _buildEndpoint(String endpoint, Map<String, dynamic>? queryParams) {
     if (_scheme == 'https') {
-      return Uri.https(_authority, "$_version$endpoint", queryParams);
+      return Uri.https(_authority, '$_version$endpoint', queryParams);
     } else if (_scheme == 'http') {
-      return Uri.http(_authority, "$_version$endpoint", queryParams);
+      return Uri.http(_authority, '$_version$endpoint', queryParams);
     } else {
       throw Exception('Unsupported URL scheme');
     }
