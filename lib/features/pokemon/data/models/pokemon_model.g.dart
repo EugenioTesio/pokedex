@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'pokemon_dto.dart';
+part of 'pokemon_model.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator

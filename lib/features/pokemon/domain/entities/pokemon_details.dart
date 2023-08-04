@@ -1,46 +1,37 @@
-import 'package:json_annotation/json_annotation.dart';
-
-part 'pokemon_details.g.dart';
-
-@JsonSerializable()
-class PokemonDetailsDto {
-  PokemonDetailsDto({
-    required this.abilities,
+class PokemonDetails {
+  PokemonDetails({
     required this.baseExperience,
     required this.height,
     required this.id,
     required this.name,
-    required this.order,
-    required this.sprites,
-    required this.types,
     required this.weight,
+    this.abilities,
+    this.sprites,
+    this.types,
   });
-  final List<PokemonAbilityDto> abilities;
+  final List<PokemonAbility>? abilities;
   final int baseExperience;
   final int height;
   final int id;
   final String name;
-  final int order;
-  final PokemonSpritesDto sprites;
-  final List<PokemonTypesDto> types;
+  final PokemonSprites? sprites;
+  final List<PokemonTypes>? types;
   final int weight;
 }
 
-@JsonSerializable()
-class PokemonAbilitiesDto {
-  PokemonAbilitiesDto({
+class PokemonAbilities {
+  PokemonAbilities({
     required this.ability,
     required this.isHidden,
     required this.slot,
   });
-  final PokemonAbilityDto ability;
+  final PokemonAbility? ability;
   final bool isHidden;
   final int slot;
 }
 
-@JsonSerializable()
-class PokemonAbilityDto {
-  PokemonAbilityDto({
+class PokemonAbility {
+  PokemonAbility({
     required this.name,
     required this.url,
   });
@@ -48,19 +39,17 @@ class PokemonAbilityDto {
   final String url;
 }
 
-@JsonSerializable()
-class PokemonTypesDto {
-  PokemonTypesDto({
+class PokemonTypes {
+  PokemonTypes({
     required this.slot,
     required this.type,
   });
   final int slot;
-  final PokemonTypeDto type;
+  final PokemonType type;
 }
 
-@JsonSerializable()
-class PokemonSpritesDto {
-  PokemonSpritesDto({
+class PokemonSprites {
+  PokemonSprites({
     required this.backDefault,
     this.backFemale,
     this.backShiny,
@@ -80,9 +69,8 @@ class PokemonSpritesDto {
   final String? frontShinyFemale;
 }
 
-@JsonSerializable()
-class PokemonTypeDto {
-  PokemonTypeDto({
+class PokemonType {
+  PokemonType({
     required this.name,
     required this.url,
   });
