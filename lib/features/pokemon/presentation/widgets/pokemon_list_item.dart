@@ -1,5 +1,7 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:pokedex/features/pokemon/domain/entities/pokemon.dart';
+import 'package:shimmer/shimmer.dart';
 
 class PokemonListItemCard extends StatelessWidget {
   const PokemonListItemCard({
@@ -15,12 +17,20 @@ class PokemonListItemCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       onTap: () => onTap?.call(pokemonListItem),
-      leading: Image.network(
-        pokemonListItem.url,
+      leading: CachedNetworkImage(
+        imageUrl: pokemonListItem.url,
         width: 50,
         height: 50,
-        loadingBuilder: (context, child, loadingProgress) =>
-            const CircularProgressIndicator(),
+        progressIndicatorBuilder: (context, url, progress) =>
+            Shimmer.fromColors(
+          baseColor: Colors.grey,
+          highlightColor: Colors.white,
+          child: const SizedBox.expand(
+            child: Icon(Icons.image),
+          ),
+        ),
+        errorWidget: (context, url, error) => const Icon(Icons.error),
+        placeholder: (context, url) => const Icon(Icons.image),
       ),
       title: Text(pokemonListItem.name),
     );
