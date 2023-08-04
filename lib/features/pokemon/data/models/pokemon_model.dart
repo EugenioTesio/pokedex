@@ -1,22 +1,71 @@
-import 'package:json_annotation/json_annotation.dart';
-import 'package:pokedex/features/pokemon/domain/entities/pokemon.dart';
+import 'dart:convert';
 
-part 'pokemon_model.g.dart';
-
-@JsonSerializable()
-class PokemonListModel extends PokemonList {
+class PokemonListModel {
   const PokemonListModel({
-    required super.count,
-    required super.next,
-    required super.previous,
-    required super.results,
+    required this.count,
+    required this.next,
+    required this.previous,
+    required this.results,
   });
+
+  factory PokemonListModel.fromMap(Map<String, dynamic> map) {
+    return PokemonListModel(
+      count: map['count'] as int,
+      next: map['next'] as String,
+      previous: map['previous'] as String,
+      results: List<PokemonListItemModel>.from(
+        (map['results'] as List<int>).map<PokemonListItemModel>(
+          (x) => PokemonListItemModel.fromMap(x as Map<String, dynamic>),
+        ),
+      ),
+    );
+  }
+
+  factory PokemonListModel.fromJson(String source) =>
+      PokemonListModel.fromMap(json.decode(source) as Map<String, dynamic>);
+
+  final int count;
+  final String next;
+  final String previous;
+  final List<PokemonListItemModel> results;
+
+  Map<String, dynamic> toMap() {
+    return <String, dynamic>{
+      'count': count,
+      'next': next,
+      'previous': previous,
+      'results': results.map((x) => x.toMap()).toList(),
+    };
+  }
+
+  String toJson() => json.encode(toMap());
 }
 
-@JsonSerializable()
-class PokemonListItemModel extends PokemonListItem {
+class PokemonListItemModel {
   const PokemonListItemModel({
-    required super.name,
-    required super.url,
+    required this.name,
+    required this.url,
   });
+
+  factory PokemonListItemModel.fromMap(Map<String, dynamic> map) {
+    return PokemonListItemModel(
+      name: map['name'] as String,
+      url: map['url'] as String,
+    );
+  }
+
+  factory PokemonListItemModel.fromJson(String source) =>
+      PokemonListItemModel.fromMap(json.decode(source) as Map<String, dynamic>);
+
+  final String name;
+  final String url;
+
+  Map<String, dynamic> toMap() {
+    return <String, dynamic>{
+      'name': name,
+      'url': url,
+    };
+  }
+
+  String toJson() => json.encode(toMap());
 }

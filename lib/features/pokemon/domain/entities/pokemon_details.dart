@@ -1,5 +1,5 @@
-class PokemonDetails {
-  PokemonDetails({
+base class PokemonDetails {
+  const PokemonDetails({
     required this.baseExperience,
     required this.height,
     required this.id,
@@ -19,8 +19,8 @@ class PokemonDetails {
   final int weight;
 }
 
-class PokemonAbilities {
-  PokemonAbilities({
+base class PokemonAbilities {
+  const PokemonAbilities({
     required this.ability,
     required this.isHidden,
     required this.slot,
@@ -30,8 +30,8 @@ class PokemonAbilities {
   final int slot;
 }
 
-class PokemonAbility {
-  PokemonAbility({
+base class PokemonAbility {
+  const PokemonAbility({
     required this.name,
     required this.url,
   });
@@ -39,8 +39,8 @@ class PokemonAbility {
   final String url;
 }
 
-class PokemonTypes {
-  PokemonTypes({
+base class PokemonTypes {
+  const PokemonTypes({
     required this.slot,
     required this.type,
   });
@@ -48,8 +48,8 @@ class PokemonTypes {
   final PokemonType type;
 }
 
-class PokemonSprites {
-  PokemonSprites({
+base class PokemonSprites {
+  const PokemonSprites({
     required this.backDefault,
     this.backFemale,
     this.backShiny,
@@ -69,8 +69,8 @@ class PokemonSprites {
   final String? frontShinyFemale;
 }
 
-class PokemonType {
-  PokemonType({
+base class PokemonType {
+  const PokemonType({
     required this.name,
     required this.url,
   });
