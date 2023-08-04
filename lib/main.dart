@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:pokedex/core/injection/injection.dart';
 
 void main() {
+  initGetIt();
   runApp(const MainApp());
 }
 
