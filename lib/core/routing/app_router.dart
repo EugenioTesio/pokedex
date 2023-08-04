@@ -1,31 +1,36 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:pokedex/core/routing/not_found_screen.dart';
+import 'package:pokedex/features/pokemon/presentation/screens/pokemon_details_screen.dart';
+import 'package:pokedex/features/pokemon/presentation/screens/pokemon_list_screen.dart';
 
 enum AppRoute {
-  signIn,
-  home,
-  profile,
+  pokemons,
+  pokemonDetails,
 }
 
 final goRouterProvider = Provider<GoRouter>((ref) {
   return GoRouter(
-    initialLocation: '/sign-in',
+    errorBuilder: (context, state) => const NotFoundScreen(),
+    initialLocation: '/pokemons',
     debugLogDiagnostics: true,
     routes: [
       GoRoute(
-        path: '/sign-in',
-        name: AppRoute.signIn.name,
-        builder: (context, state) => const CustomSignInScreen(),
-      ),
-      GoRoute(
-        path: '/home',
-        name: AppRoute.home.name,
-        builder: (context, state) => const HomeScreen(),
+        path: '/pokemons',
+        name: AppRoute.pokemons.name,
+        builder: (context, state) => const PokemonListScreen(),
         routes: [
           GoRoute(
-            path: 'profile',
-            name: AppRoute.profile.name,
-            builder: (context, state) => const CustomProfileScreen(),
+            path: ':id',
+            name: AppRoute.pokemonDetails.name,
+            builder: (context, state) {
+              final id = state.pathParameters['id']!;
+              if (id is int) {
+                return PokemonDetailsScreen(id: int.parse(id));
+              } else {
+                return const NotFoundScreen();
+              }
+            },
           ),
         ],
       ),
