@@ -22,11 +22,11 @@ final goRouterProvider = Provider<GoRouter>((ref) {
         builder: (context, state) => const PokemonListScreen(),
         routes: [
           GoRoute(
-            path: ':id',
+            path: ':name',
             name: AppRoute.pokemonDetails.name,
             builder: (context, state) {
-              final id = state.pathParameters['id']!;
-              return PokemonDetailsScreen(id: id);
+              final name = state.pathParameters['name']!;
+              return PokemonDetailsScreen(name: name);
             },
           ),
         ],

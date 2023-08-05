@@ -16,26 +16,30 @@ class PokemonListItemCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ConstrainedBox(
-      constraints: const BoxConstraints(maxWidth: 300),
-      child: ListTile(
-        onTap: () => onTap?.call(pokemonListItem),
-        leading: CachedNetworkImage(
-          imageUrl: pokemonListItem.url,
-          width: 50,
-          height: 50,
-          progressIndicatorBuilder: (context, url, progress) =>
-              Shimmer.fromColors(
-            baseColor: Colors.grey,
-            highlightColor: Colors.white,
-            child: const SizedBox.expand(
-              child: Icon(Icons.image),
+    return Card(
+      borderOnForeground: false,
+      elevation: 10,
+      child: ConstrainedBox(
+        constraints: const BoxConstraints(maxWidth: 300),
+        child: ListTile(
+          onTap: () => onTap?.call(pokemonListItem),
+          leading: CachedNetworkImage(
+            imageUrl: pokemonListItem.url,
+            width: 50,
+            height: 50,
+            progressIndicatorBuilder: (context, url, progress) =>
+                Shimmer.fromColors(
+              baseColor: Colors.grey,
+              highlightColor: Colors.white,
+              child: const SizedBox.expand(
+                child: Icon(Icons.image),
+              ),
             ),
+            errorWidget: (context, url, error) => const Icon(Icons.error),
+            placeholder: (context, url) => const Icon(Icons.image),
           ),
-          errorWidget: (context, url, error) => const Icon(Icons.error),
-          placeholder: (context, url) => const Icon(Icons.image),
+          title: AppText(pokemonListItem.name),
         ),
-        title: AppText(pokemonListItem.name),
       ),
     );
   }

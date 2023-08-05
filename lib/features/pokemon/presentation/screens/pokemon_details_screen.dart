@@ -3,11 +3,11 @@ import 'package:pokedex/shared/widgets/responsive.dart';
 
 class PokemonDetailsScreen extends StatelessWidget {
   const PokemonDetailsScreen({
-    required this.id,
+    required this.name,
     super.key,
   });
 
-  final String id;
+  final String name;
 
   @override
   Widget build(BuildContext context) {
