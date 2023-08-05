@@ -6,8 +6,8 @@ import 'package:pokedex/core/http_client/http_client.dart';
 import 'package:pokedex/features/pokemon/data/datasources/remote_data_source.dart';
 import 'package:pokedex/features/pokemon/data/models/pokemon_details_model.dart';
 import 'package:pokedex/features/pokemon/data/models/pokemon_list_model.dart';
-import 'package:pokedex/features/pokemon/domain/entities/pokemon.dart';
 import 'package:pokedex/features/pokemon/domain/entities/pokemon_details.dart';
+import 'package:pokedex/features/pokemon/domain/entities/pokemon_list.dart';
 import 'package:pokedex/features/pokemon/domain/repositories/pokemon_repository.dart';
 import 'package:pokedex/shared/utils/connection_manager.dart';
 
@@ -25,20 +25,19 @@ class PokemonRepositoryImpl extends PokemonRepository {
     String name,
   ) async {
     final response = await pokemonRemoteDataSource.fetchPokemonDetails(name);
-    final pokemonDetailsBox =
-        await HiveDatabase.openBox<PokemonDetailsModel>(name: name);
+    final pokemonDetailsBox = await HiveDatabase.openBox<PokemonDetailsModel>();
     if (response.$1 != null) {
       // if the response is not null, we save it to local storage
       await pokemonDetailsBox.clear();
-      await pokemonDetailsBox.add(response.$1!);
+      await pokemonDetailsBox.put(name, response.$1!);
       await pokemonDetailsBox.close();
 
       return (response.$1!.toEntity(), null);
     } else {
       // if the response is null, we check if we have data in local storage
-      if (pokemonDetailsBox.values.isNotEmpty) {
-        final pokemonDetails = pokemonDetailsBox.values.first;
-        await pokemonDetailsBox.close();
+      final pokemonDetails = pokemonDetailsBox.get(name);
+      await pokemonDetailsBox.close();
+      if (pokemonDetails != null) {
         return (pokemonDetails.toEntity(), null);
       } else {
         // return an error if we don't have data in local storage
