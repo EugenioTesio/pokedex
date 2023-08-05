@@ -4,38 +4,38 @@ typedef SerializeToJson<T> = Map<String, dynamic> Function(T obj);
 typedef DeserializeFromJson<T> = T Function(Map<String, dynamic> json);
 
 abstract class IHttpClient {
-  Future<(T?, HttpClientException?)> get<T extends Object>({
+  Future<(T?, AppException?)> get<T extends Object>({
     required String endpoint,
     required DeserializeFromJson<T> deserializeResponseFunction,
     Map<String, dynamic>? queryParams,
     Map<String, dynamic> payload,
-    DeserializeFromJson<HttpClientException>? customErrorDeserializer,
+    DeserializeFromJson<AppException>? customErrorDeserializer,
   });
 
-  Future<(List<T>?, HttpClientException?)> getList<T extends Object>({
+  Future<(List<T>?, AppException?)> getList<T extends Object>({
     required String endpoint,
     required DeserializeFromJson<T> deserializeResponseFunction,
     Map<String, dynamic>? queryParams,
-    DeserializeFromJson<HttpClientException>? customErrorDeserializer,
+    DeserializeFromJson<AppException>? customErrorDeserializer,
   });
 
-  Future<(T?, HttpClientException?)> post<T extends Object>({
+  Future<(T?, AppException?)> post<T extends Object>({
     required String endpoint,
     required Map<String, dynamic> payload,
     required DeserializeFromJson<T> deserializeResponseFunction,
     Map<String, dynamic>? queryParams,
-    DeserializeFromJson<HttpClientException>? customErrorDeserializer,
+    DeserializeFromJson<AppException>? customErrorDeserializer,
   });
 
-  Future<(T?, HttpClientException?)> put<T extends Object>({
+  Future<(T?, AppException?)> put<T extends Object>({
     required String endpoint,
     required Map<String, dynamic> payload,
     required DeserializeFromJson<T> deserializeResponseFunction,
-    DeserializeFromJson<HttpClientException>? customErrorDeserializer,
+    DeserializeFromJson<AppException>? customErrorDeserializer,
   });
 
-  Future<HttpClientException?> delete({
+  Future<AppException?> delete({
     required String endpoint,
-    DeserializeFromJson<HttpClientException>? customErrorDeserializer,
+    DeserializeFromJson<AppException>? customErrorDeserializer,
   });
 }

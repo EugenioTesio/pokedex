@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 // ignore: depend_on_referenced_packages
 import 'package:http/http.dart' as http;
@@ -34,13 +35,13 @@ class ApiHttpClient implements IHttpClient {
     };
   }
 
-  Future<(T?, HttpClientException?)> _request<T extends Object>({
+  Future<(T?, AppException?)> _request<T extends Object>({
     required String method,
     required String endpoint,
     DeserializeFromJson<T>? deserializeResponseFunction,
     Map<String, dynamic>? payload,
     Map<String, dynamic>? queryParams,
-    DeserializeFromJson<HttpClientException>? customErrorDeserializer,
+    DeserializeFromJson<AppException>? customErrorDeserializer,
   }) async {
     final headers = await _buildHeaders();
     final uri = _buildEndpoint(endpoint, queryParams);
@@ -79,20 +80,25 @@ class ApiHttpClient implements IHttpClient {
     } on http.ClientException catch (e) {
       return (
         null,
-        HttpClientException(
-          apiExceptionType: HttpClientExceptionType.networkError,
+        AppException(
           message: e.message,
         )
       );
     }
 
-    if (response.statusCode == 200 || response.statusCode == 201) {
+    if (response.statusCode == HttpStatus.ok ||
+        response.statusCode == HttpStatus.created) {
       Map<String, dynamic> data;
       try {
         final responseBody = const Utf8Decoder().convert(response.bodyBytes);
         data = json.decode(responseBody);
       } on Exception catch (e) {
-        throw Exception('Unable to encode response as json: $e');
+        return (
+          null,
+          AppException(
+            message: e.toString(),
+          )
+        );
       }
 
       T? responseObject;
@@ -103,35 +109,35 @@ class ApiHttpClient implements IHttpClient {
       } catch (e) {
         return (
           null,
-          HttpClientException(
-            apiExceptionType: HttpClientExceptionType.badResponse,
+          AppException(
             message: e.toString(),
           ),
         );
       }
 
       return (responseObject, null);
-    } else if (response.statusCode == 204 || response.statusCode == 202) {
+    } else if (response.statusCode == HttpStatus.noContent ||
+        response.statusCode == HttpStatus.accepted) {
       // Empty response code.
       return (null, null);
     } else {
       return (
         null,
-        HttpClientException(
-          apiExceptionType: HttpClientExceptionType.unknownServerError,
-          message: response.body,
+        AppException(
+          message: response.reasonPhrase ?? '',
+          code: response.statusCode.toString(),
         )
       );
     }
   }
 
   @override
-  Future<(T?, HttpClientException?)> get<T extends Object>({
+  Future<(T?, AppException?)> get<T extends Object>({
     required String endpoint,
     required DeserializeFromJson<T> deserializeResponseFunction,
     Map<String, dynamic>? queryParams,
     Map<String, dynamic>? payload,
-    DeserializeFromJson<HttpClientException>? customErrorDeserializer,
+    DeserializeFromJson<AppException>? customErrorDeserializer,
   }) async {
     return _request(
       method: getMethod,
@@ -144,18 +150,18 @@ class ApiHttpClient implements IHttpClient {
   }
 
   @override
-  Future<(List<T>?, HttpClientException?)> getList<T extends Object>({
+  Future<(List<T>?, AppException?)> getList<T extends Object>({
     required String endpoint,
     required DeserializeFromJson<T> deserializeResponseFunction,
     Map<String, dynamic>? queryParams,
-    DeserializeFromJson<HttpClientException>? customErrorDeserializer,
+    DeserializeFromJson<AppException>? customErrorDeserializer,
   }) async {
     final headers = await _buildHeaders();
     final uri = _buildEndpoint(endpoint, queryParams);
 
     final response = await httpClient.get(uri, headers: headers);
 
-    if (response.statusCode == 200) {
+    if (response.statusCode == HttpStatus.ok) {
       try {
         final Iterable iterable =
             json.decode(const Utf8Decoder().convert(response.bodyBytes));
@@ -166,20 +172,18 @@ class ApiHttpClient implements IHttpClient {
       } on Exception catch (e) {
         return (
           null,
-          HttpClientException(
-            apiExceptionType: HttpClientExceptionType.badResponse,
+          AppException(
             message: e.toString(),
           )
         );
       }
-    } else if (response.statusCode == 204) {
+    } else if (response.statusCode == HttpStatus.noContent) {
       // Empty response code.
       return (null, null);
     } else {
       return (
         null,
-        HttpClientException(
-          apiExceptionType: HttpClientExceptionType.unknownServerError,
+        AppException(
           message: response.body,
         )
       );
@@ -187,11 +191,11 @@ class ApiHttpClient implements IHttpClient {
   }
 
   @override
-  Future<(T?, HttpClientException?)> post<T extends Object>({
+  Future<(T?, AppException?)> post<T extends Object>({
     required String endpoint,
     required Map<String, dynamic> payload,
     required DeserializeFromJson<T> deserializeResponseFunction,
-    DeserializeFromJson<HttpClientException>? customErrorDeserializer,
+    DeserializeFromJson<AppException>? customErrorDeserializer,
     Map<String, dynamic>? queryParams,
   }) {
     return _request(
@@ -205,9 +209,9 @@ class ApiHttpClient implements IHttpClient {
   }
 
   @override
-  Future<HttpClientException?> delete({
+  Future<AppException?> delete({
     required String endpoint,
-    DeserializeFromJson<HttpClientException>? customErrorDeserializer,
+    DeserializeFromJson<AppException>? customErrorDeserializer,
   }) async {
     return (await _request(
       method: deleteMethod,
@@ -218,11 +222,11 @@ class ApiHttpClient implements IHttpClient {
   }
 
   @override
-  Future<(T?, HttpClientException?)> put<T extends Object>({
+  Future<(T?, AppException?)> put<T extends Object>({
     required String endpoint,
     required Map<String, dynamic> payload,
     required DeserializeFromJson<T> deserializeResponseFunction,
-    DeserializeFromJson<HttpClientException>? customErrorDeserializer,
+    DeserializeFromJson<AppException>? customErrorDeserializer,
   }) {
     return _request(
       method: putMethod,

@@ -9,7 +9,7 @@ class GetPokemonsPage {
 
   /// Get pokemons page from the repository.
   /// The parameter [page] starts at 1.
-  Future<(PokemonList?, HttpClientException?)> call(int page) async {
+  Future<(PokemonList?, AppException?)> call(int page) async {
     if (page < 1) {
       return (null, null);
     }

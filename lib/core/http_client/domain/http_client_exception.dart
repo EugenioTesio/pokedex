@@ -1,21 +1,14 @@
-enum HttpClientExceptionType {
-  notFound,
-  unknownServerError,
-  networkError,
-  badResponse,
-}
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 
-class HttpClientException {
-  HttpClientException({
-    required this.apiExceptionType,
-    this.message,
+class AppException {
+  AppException({
+    required this.message,
+    this.code,
   });
 
-  final HttpClientExceptionType apiExceptionType;
-  final String? message;
+  final String message;
+  final String? code;
 
   @override
-  String toString() =>
-      'HttpClientException(apiExceptionType: $apiExceptionType,'
-      ' message: $message)';
+  String toString() => 'AppException(message: $message, code: $code)';
 }

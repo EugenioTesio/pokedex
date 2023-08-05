@@ -21,7 +21,7 @@ class PokemonRepositoryImpl extends PokemonRepository {
   NetworkInfo networkInfo;
 
   @override
-  Future<(PokemonDetails?, HttpClientException?)> fetchPokemonDetails(
+  Future<(PokemonDetails?, AppException?)> fetchPokemonDetails(
     String name,
   ) async {
     final response = await pokemonRemoteDataSource.fetchPokemonDetails(name);
@@ -48,7 +48,7 @@ class PokemonRepositoryImpl extends PokemonRepository {
   }
 
   @override
-  Future<(PokemonList?, HttpClientException?)> fetchPokemons({
+  Future<(PokemonList?, AppException?)> fetchPokemons({
     int? limit,
     int offset = 0,
   }) async {
@@ -57,10 +57,9 @@ class PokemonRepositoryImpl extends PokemonRepository {
     final pokemonListSourceBox =
         await HiveDatabase.openBox<PokemonListSource>();
 
-    (PokemonList?, HttpClientException?) result = (
+    (PokemonList?, AppException?) result = (
       null,
-      HttpClientException(
-        apiExceptionType: HttpClientExceptionType.networkError,
+      AppException(
         message: 'No internet connection',
       )
     );
@@ -102,7 +101,7 @@ class PokemonRepositoryImpl extends PokemonRepository {
   }
 
   /// Fetch data from remote and cache it into local storage
-  Future<(PokemonList?, HttpClientException?)> _getAndCacheData(
+  Future<(PokemonList?, AppException?)> _getAndCacheData(
     int? limit,
     int offset,
     Box<PokemonListModel> pokemonListModelBox,

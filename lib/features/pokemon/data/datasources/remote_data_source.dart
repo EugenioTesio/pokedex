@@ -9,7 +9,7 @@ class PokemonRemoteDataSource {
 
   final ApiHttpClient client;
 
-  Future<(PokemonListModel?, HttpClientException?)> fetchPokemons({
+  Future<(PokemonListModel?, AppException?)> fetchPokemons({
     int? limit,
     int? offset,
   }) async {
@@ -20,7 +20,7 @@ class PokemonRemoteDataSource {
     );
   }
 
-  Future<(PokemonDetailsModel?, HttpClientException?)> fetchPokemonDetails(
+  Future<(PokemonDetailsModel?, AppException?)> fetchPokemonDetails(
     String name,
   ) async {
     return client.get(
