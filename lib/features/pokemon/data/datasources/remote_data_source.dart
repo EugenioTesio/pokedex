@@ -20,11 +20,11 @@ class PokemonRemoteDataSource {
   }
 
   Future<(PokemonDetailsModel?, HttpClientException?)> fetchPokemonDetails(
-    int id,
+    String name,
   ) async {
     return client.get(
       endpoint: pokemonV2Url,
-      queryParams: {'id': id},
+      queryParams: {'name': name},
       deserializeResponseFunction: PokemonDetailsModel.fromMap,
     );
   }

@@ -20,8 +20,8 @@ class HiveDatabase {
   /// Open a hive box of the given name.
   /// If there's an error parsing the box data, delete the box and return
   /// a fresh box.
-  static Future<Box<T>> openBox<T>() async {
-    final boxName = (T).toString();
+  static Future<Box<T>> openBox<T>({String? name}) async {
+    final boxName = name ?? (T).toString();
     try {
       final box = await Hive.openBox<T>(boxName);
       return box;

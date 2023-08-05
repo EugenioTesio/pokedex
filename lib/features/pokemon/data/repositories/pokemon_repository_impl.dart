@@ -4,6 +4,7 @@ import 'package:hive/hive.dart';
 import 'package:pokedex/core/data_stores/hive_database.dart';
 import 'package:pokedex/core/http_client/http_client.dart';
 import 'package:pokedex/features/pokemon/data/datasources/remote_data_source.dart';
+import 'package:pokedex/features/pokemon/data/models/pokemon_details_model.dart';
 import 'package:pokedex/features/pokemon/data/models/pokemon_list_model.dart';
 import 'package:pokedex/features/pokemon/domain/entities/pokemon.dart';
 import 'package:pokedex/features/pokemon/domain/entities/pokemon_details.dart';
@@ -20,10 +21,31 @@ class PokemonRepositoryImpl extends PokemonRepository {
   ConnectionManager connectionManager;
 
   @override
-  Future<(PokemonDetails, HttpClientException?)> fetchPokemonDetails(
-    String id,
-  ) {
-    throw UnimplementedError();
+  Future<(PokemonDetails?, HttpClientException?)> fetchPokemonDetails(
+    String name,
+  ) async {
+    final response = await pokemonRemoteDataSource.fetchPokemonDetails(name);
+    final pokemonDetailsBox =
+        await HiveDatabase.openBox<PokemonDetailsModel>(name: name);
+    if (response.$1 != null) {
+      // if the response is not null, we save it to local storage
+      await pokemonDetailsBox.clear();
+      await pokemonDetailsBox.add(response.$1!);
+      await pokemonDetailsBox.close();
+
+      return (response.$1!.toEntity(), null);
+    } else {
+      // if the response is null, we check if we have data in local storage
+      if (pokemonDetailsBox.values.isNotEmpty) {
+        final pokemonDetails = pokemonDetailsBox.values.first;
+        await pokemonDetailsBox.close();
+        return (pokemonDetails.toEntity(), null);
+      } else {
+        // return an error if we don't have data in local storage
+        await pokemonDetailsBox.close();
+        return (null, response.$2);
+      }
+    }
   }
 
   @override
@@ -36,6 +58,14 @@ class PokemonRepositoryImpl extends PokemonRepository {
     final pokemonListSourceBox =
         await HiveDatabase.openBox<PokemonListSource>();
 
+    (PokemonList?, HttpClientException?) result = (
+      null,
+      HttpClientException(
+        apiExceptionType: HttpClientExceptionType.networkError,
+        message: 'No internet connection',
+      )
+    );
+
     if (offset == 0 && isConnected) {
       // if offset == 0 means that we are fetching the first page
       await pokemonListModelBox.clear();
@@ -44,7 +74,7 @@ class PokemonRepositoryImpl extends PokemonRepository {
       await pokemonListSourceBox.clear();
       await pokemonListSourceBox.add(const PokemonListSource());
 
-      return _getAndCacheData(limit, offset, pokemonListModelBox);
+      result = await _getAndCacheData(limit, offset, pokemonListModelBox);
     }
 
     if (offset == 0 && !isConnected) {
@@ -59,20 +89,17 @@ class PokemonRepositoryImpl extends PokemonRepository {
         }
       }
 
-      return (lastPokemonListFetched.toEntity(), null);
+      result = (lastPokemonListFetched.toEntity(), null);
     }
 
     if (offset != 0 && isConnected) {
-      return _getAndCacheData(limit, offset, pokemonListModelBox);
+      result = await _getAndCacheData(limit, offset, pokemonListModelBox);
     }
 
-    return (
-      null,
-      HttpClientException(
-        apiExceptionType: HttpClientExceptionType.networkError,
-        message: 'No internet connection',
-      )
-    );
+    await pokemonListModelBox.close();
+    await pokemonListSourceBox.close();
+
+    return result;
   }
 
   /// Fetch data from remote and cache it into local storage

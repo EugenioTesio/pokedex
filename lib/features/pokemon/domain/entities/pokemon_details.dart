@@ -9,7 +9,7 @@ base class PokemonDetails {
     this.sprites,
     this.types,
   });
-  final List<PokemonAbility>? abilities;
+  final List<PokemonAbilities>? abilities;
   final int baseExperience;
   final int height;
   final int id;

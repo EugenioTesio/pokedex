@@ -7,5 +7,7 @@ abstract class PokemonRepository {
     int? limit,
     int offset = 0,
   });
-  Future<(PokemonDetails, HttpClientException?)> fetchPokemonDetails(String id);
+  Future<(PokemonDetails?, HttpClientException?)> fetchPokemonDetails(
+    String name,
+  );
 }

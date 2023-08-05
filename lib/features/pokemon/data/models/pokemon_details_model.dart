@@ -3,6 +3,7 @@ import 'dart:convert';
 
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:pokedex/core/data_stores/hive_database.dart';
+import 'package:pokedex/features/pokemon/domain/entities/pokemon_details.dart';
 
 part 'pokemon_details_model.g.dart';
 
@@ -80,6 +81,19 @@ class PokemonDetailsModel {
 
   factory PokemonDetailsModel.fromJson(String source) =>
       PokemonDetailsModel.fromMap(json.decode(source) as Map<String, dynamic>);
+
+  PokemonDetails toEntity() {
+    return PokemonDetails(
+      id: id,
+      name: name,
+      height: height,
+      weight: weight,
+      abilities: abilities?.map((x) => x.toEntity()).toList(),
+      sprites: sprites?.toEntity(),
+      types: types?.map((x) => x.toEntity()).toList(),
+      baseExperience: baseExperience,
+    );
+  }
 }
 
 class PokemonAbilitiesModel {
@@ -117,6 +131,14 @@ class PokemonAbilitiesModel {
       PokemonAbilitiesModel.fromMap(
         json.decode(source) as Map<String, dynamic>,
       );
+
+  PokemonAbilities toEntity() {
+    return PokemonAbilities(
+      ability: ability?.toEntity(),
+      isHidden: isHidden,
+      slot: slot,
+    );
+  }
 }
 
 class PokemonAbilityModel {
@@ -146,6 +168,13 @@ class PokemonAbilityModel {
 
   factory PokemonAbilityModel.fromJson(String source) =>
       PokemonAbilityModel.fromMap(json.decode(source) as Map<String, dynamic>);
+
+  PokemonAbility toEntity() {
+    return PokemonAbility(
+      name: name,
+      url: url,
+    );
+  }
 }
 
 class PokemonTypesModel {
@@ -175,6 +204,13 @@ class PokemonTypesModel {
 
   factory PokemonTypesModel.fromJson(String source) =>
       PokemonTypesModel.fromMap(json.decode(source) as Map<String, dynamic>);
+
+  PokemonTypes toEntity() {
+    return PokemonTypes(
+      slot: slot,
+      type: type.toEntity(),
+    );
+  }
 }
 
 class PokemonTypeModel {
@@ -204,6 +240,13 @@ class PokemonTypeModel {
 
   factory PokemonTypeModel.fromJson(String source) =>
       PokemonTypeModel.fromMap(json.decode(source) as Map<String, dynamic>);
+
+  PokemonType toEntity() {
+    return PokemonType(
+      name: name,
+      url: url,
+    );
+  }
 }
 
 class PokemonSpritesModel {
@@ -266,4 +309,17 @@ class PokemonSpritesModel {
 
   factory PokemonSpritesModel.fromJson(String source) =>
       PokemonSpritesModel.fromMap(json.decode(source) as Map<String, dynamic>);
+
+  PokemonSprites toEntity() {
+    return PokemonSprites(
+      backDefault: backDefault,
+      backFemale: backFemale,
+      backShiny: backShiny,
+      backShinyFemale: backShinyFemale,
+      frontDefault: frontDefault,
+      frontFemale: frontFemale,
+      frontShiny: frontShiny,
+      frontShinyFemale: frontShinyFemale,
+    );
+  }
 }
