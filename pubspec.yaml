@@ -13,6 +13,7 @@ dependencies:
   dart_ping: ^9.0.0
   equatable: 2.0.5
   faker: 2.1.0
+  flex_color_scheme: ^7.2.0
   flutter:
     sdk: flutter
   flutter_html: ^3.0.0-beta.2
@@ -35,5 +36,17 @@ dev_dependencies:
   riverpod_lint: ^1.3.2
 
 
-flutter:
+flutter: 
+  assets: 
+    - assets/images/
   uses-material-design: true
+  generate: true
+
+fonts:
+    - family: Pokemon Solid
+      fonts:
+        - asset: assets/fonts/pokemon/Pokemon-Solid.ttf
+    - family: Pokemon Hollow
+      fonts:
+        - asset: assets/fonts/pokemon/Pokemon-Hollow.ttf
+
