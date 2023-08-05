@@ -1,12 +1,13 @@
 import 'package:pokedex/core/constants/urls.dart';
-import 'package:pokedex/core/http_client/http_client.dart';
-import 'package:pokedex/core/injection/injection.dart';
+import 'package:pokedex/core/http_client/data/api_http_client_impl.dart';
+import 'package:pokedex/core/http_client/domain/http_client_exception.dart';
 import 'package:pokedex/features/pokemon/data/models/pokemon_details_model.dart';
 import 'package:pokedex/features/pokemon/data/models/pokemon_list_model.dart';
-import 'package:pokedex/shared/utils/http_clients/api_http_client_impl.dart';
 
 class PokemonRemoteDataSource {
-  final ApiHttpClient client = getIt<ApiHttpClient>();
+  PokemonRemoteDataSource(this.client);
+
+  final ApiHttpClient client;
 
   Future<(PokemonListModel?, HttpClientException?)> fetchPokemons({
     int? limit,

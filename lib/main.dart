@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pokedex/core/data_stores/hive_database.dart';
-import 'package:pokedex/core/injection/injection.dart';
 
 void main() async {
-  initGetIt();
   await HiveDatabase.initialize();
   runApp(const MainApp());
 }

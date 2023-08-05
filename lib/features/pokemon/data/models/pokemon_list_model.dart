@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:pokedex/core/data_stores/hive_database.dart';
-import 'package:pokedex/features/pokemon/domain/entities/pokemon.dart';
+import 'package:pokedex/features/pokemon/domain/entities/pokemon_list.dart';
 
 part 'pokemon_list_model.g.dart';
 

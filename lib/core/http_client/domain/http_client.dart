@@ -1,3 +1,5 @@
+import 'package:pokedex/core/http_client/domain/http_client_exception.dart';
+
 typedef SerializeToJson<T> = Map<String, dynamic> Function(T obj);
 typedef DeserializeFromJson<T> = T Function(Map<String, dynamic> json);
 
@@ -36,26 +38,4 @@ abstract class IHttpClient {
     required String endpoint,
     DeserializeFromJson<HttpClientException>? customErrorDeserializer,
   });
-}
-
-enum HttpClientExceptionType {
-  notFound,
-  unknownServerError,
-  networkError,
-  badResponse,
-}
-
-class HttpClientException {
-  HttpClientException({
-    required this.apiExceptionType,
-    this.message,
-  });
-
-  final HttpClientExceptionType apiExceptionType;
-  final String? message;
-
-  @override
-  String toString() =>
-      'HttpClientException(apiExceptionType: $apiExceptionType,'
-      ' message: $message)';
 }

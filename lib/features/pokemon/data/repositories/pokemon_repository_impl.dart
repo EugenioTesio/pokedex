@@ -2,23 +2,23 @@ import 'dart:async';
 
 import 'package:hive/hive.dart';
 import 'package:pokedex/core/data_stores/hive_database.dart';
-import 'package:pokedex/core/http_client/http_client.dart';
+import 'package:pokedex/core/http_client/domain/http_client_exception.dart';
 import 'package:pokedex/features/pokemon/data/datasources/remote_data_source.dart';
 import 'package:pokedex/features/pokemon/data/models/pokemon_details_model.dart';
 import 'package:pokedex/features/pokemon/data/models/pokemon_list_model.dart';
 import 'package:pokedex/features/pokemon/domain/entities/pokemon_details.dart';
 import 'package:pokedex/features/pokemon/domain/entities/pokemon_list.dart';
 import 'package:pokedex/features/pokemon/domain/repositories/pokemon_repository.dart';
-import 'package:pokedex/shared/utils/network_info.dart';
+import 'package:pokedex/shared/utils/network_info/domain/network_info.dart';
 
 class PokemonRepositoryImpl extends PokemonRepository {
   PokemonRepositoryImpl({
     required this.pokemonRemoteDataSource,
-    required this.connectionManager,
+    required this.networkInfo,
   });
 
   PokemonRemoteDataSource pokemonRemoteDataSource;
-  NetworkInfo connectionManager;
+  NetworkInfo networkInfo;
 
   @override
   Future<(PokemonDetails?, HttpClientException?)> fetchPokemonDetails(
@@ -52,7 +52,7 @@ class PokemonRepositoryImpl extends PokemonRepository {
     int? limit,
     int offset = 0,
   }) async {
-    final isConnected = (await connectionManager.checkConnection()) ?? false;
+    final isConnected = (await networkInfo.checkConnection()) ?? false;
     final pokemonListModelBox = await HiveDatabase.openBox<PokemonListModel>();
     final pokemonListSourceBox =
         await HiveDatabase.openBox<PokemonListSource>();

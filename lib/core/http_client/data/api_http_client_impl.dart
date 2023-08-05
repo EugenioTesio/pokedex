@@ -2,7 +2,8 @@ import 'dart:convert';
 
 // ignore: depend_on_referenced_packages
 import 'package:http/http.dart' as http;
-import 'package:pokedex/core/http_client/http_client.dart';
+import 'package:pokedex/core/http_client/domain/http_client.dart';
+import 'package:pokedex/core/http_client/domain/http_client_exception.dart';
 
 class ApiHttpClient implements IHttpClient {
   late String _scheme;
