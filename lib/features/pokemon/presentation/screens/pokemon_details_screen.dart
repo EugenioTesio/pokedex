@@ -7,7 +7,7 @@ class PokemonDetailsScreen extends StatelessWidget {
     super.key,
   });
 
-  final int id;
+  final String id;
 
   @override
   Widget build(BuildContext context) {
