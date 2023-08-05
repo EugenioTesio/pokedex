@@ -3,7 +3,9 @@ import 'package:pokedex/features/pokemon/domain/entities/pokemon_details.dart';
 import 'package:pokedex/features/pokemon/domain/repositories/pokemon_repository.dart';
 
 class GetPokemonDetatails {
-  GetPokemonDetatails(this.pokemonRepository);
+  GetPokemonDetatails({
+    required this.pokemonRepository,
+  });
 
   final PokemonRepository pokemonRepository;
 
