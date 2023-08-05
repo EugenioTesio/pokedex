@@ -1,6 +1,12 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
 
+import 'package:hive_flutter/hive_flutter.dart';
+import 'package:pokedex/core/data_stores/hive_database.dart';
+
+part 'pokemon_details_model.g.dart';
+
+@HiveType(typeId: HiveConstants.pokemonDetailsModel)
 class PokemonDetailsModel {
   const PokemonDetailsModel({
     required this.id,
@@ -13,13 +19,21 @@ class PokemonDetailsModel {
     required this.baseExperience,
   });
 
+  @HiveField(0)
   final int id;
+  @HiveField(1)
   final String name;
+  @HiveField(2)
   final int height;
+  @HiveField(3)
   final int weight;
+  @HiveField(4)
   final List<PokemonAbilitiesModel>? abilities;
+  @HiveField(5)
   final PokemonSpritesModel? sprites;
+  @HiveField(6)
   final List<PokemonTypesModel>? types;
+  @HiveField(7)
   final int baseExperience;
 
   Map<String, dynamic> toMap() {
