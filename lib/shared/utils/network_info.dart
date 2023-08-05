@@ -1,10 +1,10 @@
 import 'package:dart_ping/dart_ping.dart';
 
-abstract class ConnectionManager {
+abstract class NetworkInfo {
   Future<bool?> checkConnection();
 }
 
-class ConnectionManagerImpl implements ConnectionManager {
+class NetworkInfoImpl implements NetworkInfo {
   @override
   Future<bool?> checkConnection() async {
     final ping = Ping('google.com', count: 1);
@@ -12,7 +12,7 @@ class ConnectionManagerImpl implements ConnectionManager {
   }
 }
 
-class FakeConnectionManager implements ConnectionManager {
+class FakeNetworkInfo implements NetworkInfo {
   bool isConnected = true;
   @override
   Future<bool?> checkConnection() async {

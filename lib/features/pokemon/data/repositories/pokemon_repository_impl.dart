@@ -9,7 +9,7 @@ import 'package:pokedex/features/pokemon/data/models/pokemon_list_model.dart';
 import 'package:pokedex/features/pokemon/domain/entities/pokemon_details.dart';
 import 'package:pokedex/features/pokemon/domain/entities/pokemon_list.dart';
 import 'package:pokedex/features/pokemon/domain/repositories/pokemon_repository.dart';
-import 'package:pokedex/shared/utils/connection_manager.dart';
+import 'package:pokedex/shared/utils/network_info.dart';
 
 class PokemonRepositoryImpl extends PokemonRepository {
   PokemonRepositoryImpl({
@@ -18,7 +18,7 @@ class PokemonRepositoryImpl extends PokemonRepository {
   });
 
   PokemonRemoteDataSource pokemonRemoteDataSource;
-  ConnectionManager connectionManager;
+  NetworkInfo connectionManager;
 
   @override
   Future<(PokemonDetails?, HttpClientException?)> fetchPokemonDetails(
@@ -38,7 +38,7 @@ class PokemonRepositoryImpl extends PokemonRepository {
       final pokemonDetails = pokemonDetailsBox.get(name);
       await pokemonDetailsBox.close();
       if (pokemonDetails != null) {
-        return (pokemonDetails.toEntity(), null);
+        return (pokemonDetails.toEntity(), response.$2);
       } else {
         // return an error if we don't have data in local storage
         await pokemonDetailsBox.close();
