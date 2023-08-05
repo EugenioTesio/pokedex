@@ -77,7 +77,7 @@ final lightTheme = FlexThemeData.light(
   fontFamily: 'Pokemon Solid',
 );
 
-final dartTheme = FlexThemeData.dark(
+final darkTheme = FlexThemeData.dark(
   colors: const FlexSchemeColor(
     primary: Color(0xff274472),
     primaryContainer: Color(0xff41729f),

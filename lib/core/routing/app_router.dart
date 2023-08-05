@@ -10,6 +10,8 @@ enum AppRoute {
   notFound,
 }
 
+/// The [GoRouter] provider. Wrapped on a [Provider] to allow access to
+/// other providers in the future.
 final goRouterProvider = Provider<GoRouter>((ref) {
   return GoRouter(
     errorBuilder: (context, state) => const NotFoundScreen(),
@@ -32,7 +34,7 @@ final goRouterProvider = Provider<GoRouter>((ref) {
         ],
       ),
       GoRoute(
-        path: 'not-found',
+        path: '/not-found',
         name: AppRoute.notFound.name,
         builder: (context, state) => const NotFoundScreen(),
       ),
