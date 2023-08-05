@@ -7,6 +7,7 @@ import 'package:pokedex/features/pokemon/presentation/screens/pokemon_list_scree
 enum AppRoute {
   pokemons,
   pokemonDetails,
+  notFound,
 }
 
 final goRouterProvider = Provider<GoRouter>((ref) {
@@ -25,14 +26,15 @@ final goRouterProvider = Provider<GoRouter>((ref) {
             name: AppRoute.pokemonDetails.name,
             builder: (context, state) {
               final id = state.pathParameters['id']!;
-              if (id is int) {
-                return PokemonDetailsScreen(id: int.parse(id));
-              } else {
-                return const NotFoundScreen();
-              }
+              return PokemonDetailsScreen(id: id);
             },
           ),
         ],
+      ),
+      GoRoute(
+        path: 'not-found',
+        name: AppRoute.notFound.name,
+        builder: (context, state) => const NotFoundScreen(),
       ),
     ],
   );
