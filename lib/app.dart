@@ -15,6 +15,7 @@ class App extends ConsumerWidget {
       darkTheme: darkTheme,
       routerConfig: goRouter,
       debugShowCheckedModeBanner: false,
+      onGenerateTitle: (context) => 'Pokedex',
     );
   }
 }
