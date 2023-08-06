@@ -11,11 +11,25 @@ import 'package:pokedex/shared/widgets/app_text.dart';
 
 // ignore: comment_references
 /// Desktop view of the [PokemonListScreen] witch contains the state management
-class PokemonListDesktop extends ConsumerWidget {
+class PokemonListDesktop extends ConsumerStatefulWidget {
   const PokemonListDesktop({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<PokemonListDesktop> createState() => _PokemonListDesktopState();
+}
+
+class _PokemonListDesktopState extends ConsumerState<PokemonListDesktop> {
+  @override
+  void initState() {
+    Future.delayed(
+      Duration.zero,
+      () => ref.read(poekmonStateNotifierProvider.notifier).getPokemonList(),
+    );
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     ref.listen<AsyncValue<PokemonState>>(
       poekmonStateNotifierProvider,
       (_, state) => state.whenOrNull(
@@ -62,15 +76,21 @@ class PokemonListDesktopView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: PokemonSilverList(
-        children: pokemonList
-            .map<Widget>(
-              (e) => PokemonListItemCard(
-                pokemonListItem: e,
-                onTap: onTap,
-              ),
+      body: SafeArea(
+        child: Stack(
+          children: [
+            PokemonSilverList(
+              children: pokemonList
+                  .map<Widget>(
+                    (e) => PokemonListItemCard(
+                      pokemonListItem: e,
+                      onTap: onTap,
+                    ),
+                  )
+                  .toList(),
             )
-            .toList(),
+          ],
+        ),
       ),
     );
   }
