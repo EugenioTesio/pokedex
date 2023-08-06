@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:image_network/image_network.dart';
 import 'package:pokedex/features/pokemon/domain/entities/pokemon_list.dart';
 import 'package:pokedex/shared/widgets/app_text.dart';
-import 'package:shimmer/shimmer.dart';
+import 'package:pokedex/shared/widgets/image_progress.dart';
 
 class PokemonListItemCard extends StatelessWidget {
   const PokemonListItemCard({
@@ -24,7 +24,7 @@ class PokemonListItemCard extends StatelessWidget {
       child: ListTile(
         onTap: () => onTap?.call(pokemonListItem),
         leading: Container(
-          padding: EdgeInsets.all(8),
+          padding: const EdgeInsets.all(8),
           width: 50,
           height: 50,
           child: kIsWeb
@@ -32,13 +32,7 @@ class PokemonListItemCard extends StatelessWidget {
                   image: parseUrlToPkparaisoImage(pokemonListItem.url),
                   width: 50,
                   height: 50,
-                  onLoading: Shimmer.fromColors(
-                    baseColor: Colors.grey,
-                    highlightColor: Colors.white,
-                    child: const SizedBox.expand(
-                      child: Icon(Icons.image),
-                    ),
-                  ),
+                  onLoading: const ShimmerImageProgress(),
                   fitWeb: BoxFitWeb.scaleDown,
                   borderRadius: BorderRadius.circular(10),
                 )
@@ -47,13 +41,7 @@ class PokemonListItemCard extends StatelessWidget {
                   width: 50,
                   height: 50,
                   progressIndicatorBuilder: (context, url, progress) =>
-                      Shimmer.fromColors(
-                    baseColor: Colors.grey,
-                    highlightColor: Colors.white,
-                    child: const SizedBox.expand(
-                      child: Icon(Icons.image),
-                    ),
-                  ),
+                      const ShimmerImageProgress(),
                   errorWidget: (context, url, error) => const Icon(Icons.error),
                   imageBuilder: (context, imageProvider) {
                     return DecoratedBox(
