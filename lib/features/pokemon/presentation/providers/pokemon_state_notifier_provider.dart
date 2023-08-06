@@ -8,5 +8,5 @@ final poekmonStateNotifierProvider =
   final getPockemonsPage = ref.watch(getPokemonsPageProvider);
   return PokemonNotifier(
     getPockemonsPage: getPockemonsPage,
-  )..getPokemonList();
+  );
 });
