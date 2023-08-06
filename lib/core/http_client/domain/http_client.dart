@@ -7,7 +7,7 @@ abstract class IHttpClient {
   Future<(T?, AppException?)> get<T extends Object>({
     required String endpoint,
     required DeserializeFromJson<T> deserializeResponseFunction,
-    Map<String, dynamic>? queryParams,
+    Map<String, String>? queryParams,
     Map<String, dynamic> payload,
     DeserializeFromJson<AppException>? customErrorDeserializer,
   });
@@ -15,7 +15,7 @@ abstract class IHttpClient {
   Future<(List<T>?, AppException?)> getList<T extends Object>({
     required String endpoint,
     required DeserializeFromJson<T> deserializeResponseFunction,
-    Map<String, dynamic>? queryParams,
+    Map<String, String>? queryParams,
     DeserializeFromJson<AppException>? customErrorDeserializer,
   });
 
@@ -23,7 +23,7 @@ abstract class IHttpClient {
     required String endpoint,
     required Map<String, dynamic> payload,
     required DeserializeFromJson<T> deserializeResponseFunction,
-    Map<String, dynamic>? queryParams,
+    Map<String, String>? queryParams,
     DeserializeFromJson<AppException>? customErrorDeserializer,
   });
 

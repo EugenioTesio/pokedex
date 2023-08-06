@@ -1,2 +1,2 @@
-const pokeApiV2Url = 'https://pokeapi.co/api/v2';
-const pokemonEndpoint = '$pokeApiV2Url/pokemon';
+const pokeApiV2Url = 'pokeapi.co';
+const pokemonEndpoint = '/api/v2/pokemon';

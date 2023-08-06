@@ -2,15 +2,15 @@ import 'dart:convert';
 import 'dart:io';
 
 // ignore: depend_on_referenced_packages
+import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:pokedex/core/http_client/domain/http_client.dart';
 import 'package:pokedex/core/http_client/domain/http_client_exception.dart';
 
 class ApiHttpClient implements IHttpClient {
-  late String _scheme;
-  late String _authority;
-  late String _version;
+  ApiHttpClient(this.authority);
 
+  final String authority;
   // Supported HTTP methods
   static const getMethod = 'GET';
   static const postMethod = 'POST';
@@ -19,17 +19,7 @@ class ApiHttpClient implements IHttpClient {
 
   final http.Client httpClient = http.Client();
 
-  Uri _buildEndpoint(String endpoint, Map<String, dynamic>? queryParams) {
-    if (_scheme == 'https') {
-      return Uri.https(_authority, '$_version$endpoint', queryParams);
-    } else if (_scheme == 'http') {
-      return Uri.http(_authority, '$_version$endpoint', queryParams);
-    } else {
-      throw Exception('Unsupported URL scheme');
-    }
-  }
-
-  Future<Map<String, String>> _buildHeaders() async {
+  Map<String, String> _buildHeaders() {
     return {
       'Accept': 'application/json',
     };
@@ -40,17 +30,19 @@ class ApiHttpClient implements IHttpClient {
     required String endpoint,
     DeserializeFromJson<T>? deserializeResponseFunction,
     Map<String, dynamic>? payload,
-    Map<String, dynamic>? queryParams,
+    Map<String, String>? queryParams,
     DeserializeFromJson<AppException>? customErrorDeserializer,
   }) async {
-    final headers = await _buildHeaders();
-    final uri = _buildEndpoint(endpoint, queryParams);
+    final headers = _buildHeaders();
+    final uri = Uri.https(authority, endpoint, queryParams);
+    debugPrint('Request: $method $uri' ' query params: $queryParams');
 
-    http.Response response;
+    var response = http.Response('', 500);
     try {
       switch (method) {
         case getMethod:
           response = await httpClient.get(uri, headers: headers);
+          debugPrint('Response: ${response.body}');
           break;
         case postMethod:
           headers['Content-Type'] = 'application/json';
@@ -77,11 +69,11 @@ class ApiHttpClient implements IHttpClient {
         default:
           throw Exception('Unsupported HTTP Method');
       }
-    } on http.ClientException catch (e) {
+    } on Exception catch (e) {
       return (
         null,
         AppException(
-          message: e.message,
+          message: e.toString(),
         )
       );
     }
@@ -135,7 +127,7 @@ class ApiHttpClient implements IHttpClient {
   Future<(T?, AppException?)> get<T extends Object>({
     required String endpoint,
     required DeserializeFromJson<T> deserializeResponseFunction,
-    Map<String, dynamic>? queryParams,
+    Map<String, String>? queryParams,
     Map<String, dynamic>? payload,
     DeserializeFromJson<AppException>? customErrorDeserializer,
   }) async {
@@ -157,7 +149,7 @@ class ApiHttpClient implements IHttpClient {
     DeserializeFromJson<AppException>? customErrorDeserializer,
   }) async {
     final headers = await _buildHeaders();
-    final uri = _buildEndpoint(endpoint, queryParams);
+    final uri = Uri.parse(endpoint);
 
     final response = await httpClient.get(uri, headers: headers);
 
@@ -196,7 +188,7 @@ class ApiHttpClient implements IHttpClient {
     required Map<String, dynamic> payload,
     required DeserializeFromJson<T> deserializeResponseFunction,
     DeserializeFromJson<AppException>? customErrorDeserializer,
-    Map<String, dynamic>? queryParams,
+    Map<String, String>? queryParams,
   }) {
     return _request(
       method: postMethod,
