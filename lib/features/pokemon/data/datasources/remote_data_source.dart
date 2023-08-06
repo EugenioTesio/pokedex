@@ -15,7 +15,10 @@ class PokemonRemoteDataSource {
   }) async {
     return client.get(
       endpoint: pokemonEndpoint,
-      queryParams: {'limit': limit, 'offset': offset},
+      queryParams: {
+        'limit': limit.toString(),
+        'offset': offset.toString(),
+      },
       deserializeResponseFunction: PokemonListModel.fromMap,
     );
   }
