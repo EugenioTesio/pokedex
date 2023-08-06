@@ -6,6 +6,7 @@ abstract class HiveConstants {
   static const int pokemonListModel = 1;
   static const int pokemonDetailsModel = 2;
   static const int pokemonListSource = 3;
+  static const int pokemonListItemModel = 4;
 }
 
 class HiveDatabase {
@@ -14,7 +15,8 @@ class HiveDatabase {
     Hive
       ..registerAdapter(PokemonListModelAdapter())
       ..registerAdapter(PokemonDetailsModelAdapter())
-      ..registerAdapter(PokemonListSourceAdapter());
+      ..registerAdapter(PokemonListSourceAdapter())
+      ..registerAdapter(PokemonListItemModelAdapter());
   }
 
   /// Open a hive box of the given name.
