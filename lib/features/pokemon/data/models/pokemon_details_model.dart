@@ -58,7 +58,7 @@ class PokemonDetailsModel {
       weight: map['weight'] as int,
       abilities: map['abilities'] != null
           ? List<PokemonAbilitiesModel>.from(
-              (map['abilities'] as List<int>).map<PokemonAbilitiesModel?>(
+              (map['abilities'] as List).map<PokemonAbilitiesModel?>(
                 (x) => PokemonAbilitiesModel.fromMap(x as Map<String, dynamic>),
               ),
             )
@@ -68,7 +68,7 @@ class PokemonDetailsModel {
           : null,
       types: map['types'] != null
           ? List<PokemonTypesModel>.from(
-              (map['types'] as List<int>).map<PokemonTypesModel?>(
+              (map['types'] as List).map<PokemonTypesModel?>(
                 (x) => PokemonTypesModel.fromMap(x as Map<String, dynamic>),
               ),
             )
