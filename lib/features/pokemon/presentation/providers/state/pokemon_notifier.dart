@@ -9,7 +9,7 @@ class PokemonNotifier extends StateNotifier<AsyncValue<PokemonState>> {
 
   final GetPokemonsPage getPockemonsPage;
 
-  int page = 0;
+  int page = 1;
 
   Future<void> getPokemonList() async {
     state = const AsyncLoading();
@@ -19,12 +19,13 @@ class PokemonNotifier extends StateNotifier<AsyncValue<PokemonState>> {
       final oldItems = state.value?.pokemonListItems ?? [];
       final newItems = failureOrPokemonList.$1!.results;
       page++;
-      state = AsyncValue.data(
-        state.value!.copyWith(
+      state = AsyncData(
+        PokemonState(
           pokemonListItems: [
             ...oldItems,
             ...newItems,
           ],
+          page: page,
         ),
       );
     } else {
