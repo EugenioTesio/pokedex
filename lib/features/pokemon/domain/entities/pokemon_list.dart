@@ -3,14 +3,14 @@ import 'package:equatable/equatable.dart';
 class PokemonList extends Equatable {
   const PokemonList({
     required this.count,
-    required this.next,
-    required this.previous,
     required this.results,
+    this.next,
+    this.previous,
   });
 
   final int count;
-  final String next;
-  final String previous;
+  final String? next;
+  final String? previous;
   final List<PokemonListItem> results;
 
   @override
