@@ -8,7 +8,7 @@ class PokedexAppBar extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return AppBar(
+    return SliverAppBar(
       scrolledUnderElevation: 0,
       backgroundColor: Theme.of(context).colorScheme.tertiary.withAlpha(40),
       centerTitle: false,
