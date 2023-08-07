@@ -2,8 +2,8 @@ import 'package:pokedex/core/http_client/domain/http_client_exception.dart';
 import 'package:pokedex/features/pokemon/domain/entities/pokemon_list.dart';
 import 'package:pokedex/features/pokemon/domain/repositories/pokemon_repository.dart';
 
-class GetPokemonsPage {
-  GetPokemonsPage({required this.pokemonRepository});
+class FetchPokemonPage {
+  FetchPokemonPage({required this.pokemonRepository});
 
   final PokemonRepository pokemonRepository;
 

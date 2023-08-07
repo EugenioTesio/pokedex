@@ -1,16 +1,16 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:pokedex/features/pokemon/domain/use_cases/get_pokemons_details.dart';
-import 'package:pokedex/features/pokemon/domain/use_cases/get_pokemons_page.dart';
-import 'package:pokedex/features/pokemon/presentation/providers/state/pokemon_state.dart';
+import 'package:pokedex/features/pokemon/domain/use_cases/fetch_pokemon_details.dart';
+import 'package:pokedex/features/pokemon/domain/use_cases/fetch_pokemon_page.dart';
+import 'package:pokedex/features/pokemon/presentation/providers/state/pokemon_list_state.dart';
 
 class PokemonNotifier extends StateNotifier<AsyncValue<PokemonState>> {
   PokemonNotifier({
-    required this.getPockemonsPage,
-    required this.getPokemonDetails,
+    required this.fetchPokemonPageUseCase,
+    required this.fetchPokemonDetailsUseCase,
   }) : super(AsyncData<PokemonState>(PokemonState.initial()));
 
-  final GetPokemonsPage getPockemonsPage;
-  final GetPokemonDetails getPokemonDetails;
+  final FetchPokemonPage fetchPokemonPageUseCase;
+  final FetchPokemonDetails fetchPokemonDetailsUseCase;
 
   int page = 1;
 
@@ -28,7 +28,7 @@ class PokemonNotifier extends StateNotifier<AsyncValue<PokemonState>> {
       );
     }
 
-    final failureOrPokemonList = await getPockemonsPage.call(page);
+    final failureOrPokemonList = await fetchPokemonPageUseCase.call(page);
 
     if (failureOrPokemonList.$1 != null) {
       final oldItems = state.value?.pokemonListItems ?? [];
@@ -55,9 +55,8 @@ class PokemonNotifier extends StateNotifier<AsyncValue<PokemonState>> {
     }
   }
 
+  /// Fetch pokemon details by name while user is scrolling the list.
   Future<void> fetchPokemonDetails(String name) async {
-    final failureOrPokemonDetails = await getPokemonDetails.call(name);
-
-    if (failureOrPokemonDetails.$1 != null) {}
+    await fetchPokemonDetailsUseCase.call(name);
   }
 }

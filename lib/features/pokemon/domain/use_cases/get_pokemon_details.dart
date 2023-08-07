@@ -10,6 +10,6 @@ class GetPokemonDetails {
   final PokemonRepository pokemonRepository;
 
   Future<(PokemonDetails?, AppException?)> call(String name) async {
-    return pokemonRepository.fetchPokemonDetails(name);
+    return pokemonRepository.getPokemonDetails(name);
   }
 }
