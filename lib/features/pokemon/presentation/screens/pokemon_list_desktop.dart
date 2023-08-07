@@ -4,7 +4,6 @@ import 'package:go_router/go_router.dart';
 import 'package:pokedex/core/routing/app_router.dart';
 import 'package:pokedex/features/pokemon/domain/entities/pokemon_list.dart';
 import 'package:pokedex/features/pokemon/presentation/providers/pokemon_state_notifier_provider.dart';
-import 'package:pokedex/features/pokemon/presentation/providers/state/pokemon_notifier.dart';
 import 'package:pokedex/features/pokemon/presentation/providers/state/pokemon_state.dart';
 import 'package:pokedex/features/pokemon/presentation/widgets/pokemon_list_item.dart';
 import 'package:pokedex/features/pokemon/presentation/widgets/pokemon_sliver_list.dart';
@@ -13,28 +12,12 @@ import 'package:pokedex/shared/widgets/app_text.dart';
 
 // ignore: comment_references
 /// Desktop view of the [PokemonListScreen] witch contains the state management
-class PokemonListDesktop extends ConsumerStatefulWidget {
+class PokemonListDesktop extends ConsumerWidget {
   const PokemonListDesktop({super.key});
 
   @override
-  ConsumerState<PokemonListDesktop> createState() => _PokemonListDesktopState();
-}
-
-class _PokemonListDesktopState extends ConsumerState<PokemonListDesktop> {
-  late PokemonNotifier _pokemonNotifier;
-
-  @override
-  void initState() {
-    _pokemonNotifier = ref.read(poekmonStateNotifierProvider.notifier);
-    Future.delayed(
-      Duration.zero,
-      () => _pokemonNotifier.getPokemonList(),
-    );
-    super.initState();
-  }
-
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final pokemonNotifier = ref.read(poekmonStateNotifierProvider.notifier);
     ref.listen<AsyncValue<PokemonState>>(
       poekmonStateNotifierProvider,
       (_, state) => state.whenOrNull(
@@ -53,7 +36,7 @@ class _PokemonListDesktopState extends ConsumerState<PokemonListDesktop> {
       return PokemonListDesktopView(
         pokemonList: pokemonList,
         resultsCount: poekmonState.value.count,
-        onLastIndexFetched: () => _pokemonNotifier.getPokemonList(),
+        onLastIndexFetched: pokemonNotifier.fetchPokemons,
         isLoadingMoreResults: poekmonState.value.isLoadingMoreResults,
         onTap: (pokemonListItem) {
           context.goNamed(

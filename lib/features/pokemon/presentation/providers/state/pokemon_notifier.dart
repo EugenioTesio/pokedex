@@ -11,7 +11,11 @@ class PokemonNotifier extends StateNotifier<AsyncValue<PokemonState>> {
 
   int page = 1;
 
-  Future<void> getPokemonList() async {
+  void init() {
+    fetchPokemons();
+  }
+
+  Future<void> fetchPokemons() async {
     if (page == 1) {
       state = const AsyncLoading();
     } else {
