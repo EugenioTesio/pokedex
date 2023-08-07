@@ -4,9 +4,11 @@ import 'package:go_router/go_router.dart';
 import 'package:pokedex/core/routing/app_router.dart';
 import 'package:pokedex/features/pokemon/domain/entities/pokemon_list.dart';
 import 'package:pokedex/features/pokemon/presentation/providers/pokemon_state_notifier_provider.dart';
+import 'package:pokedex/features/pokemon/presentation/providers/state/pokemon_notifier.dart';
 import 'package:pokedex/features/pokemon/presentation/providers/state/pokemon_state.dart';
 import 'package:pokedex/features/pokemon/presentation/widgets/pokemon_list_item.dart';
-import 'package:pokedex/features/pokemon/presentation/widgets/pokemon_silver_list.dart';
+import 'package:pokedex/features/pokemon/presentation/widgets/pokemon_sliver_list.dart';
+import 'package:pokedex/shared/widgets/app_bar.dart';
 import 'package:pokedex/shared/widgets/app_text.dart';
 
 // ignore: comment_references
@@ -19,11 +21,14 @@ class PokemonListDesktop extends ConsumerStatefulWidget {
 }
 
 class _PokemonListDesktopState extends ConsumerState<PokemonListDesktop> {
+  late PokemonNotifier _pokemonNotifier;
+
   @override
   void initState() {
+    _pokemonNotifier = ref.read(poekmonStateNotifierProvider.notifier);
     Future.delayed(
       Duration.zero,
-      () => ref.read(poekmonStateNotifierProvider.notifier).getPokemonList(),
+      () => _pokemonNotifier.getPokemonList(),
     );
     super.initState();
   }
@@ -47,6 +52,9 @@ class _PokemonListDesktopState extends ConsumerState<PokemonListDesktop> {
       final pokemonList = poekmonState.value.pokemonListItems;
       return PokemonListDesktopView(
         pokemonList: pokemonList,
+        resultsCount: poekmonState.value.count,
+        onLastIndexFetched: () => _pokemonNotifier.getPokemonList(),
+        isLoadingMoreResults: poekmonState.value.isLoadingMoreResults,
         onTap: (pokemonListItem) {
           context.goNamed(
             AppRoute.pokemonDetails.name,
@@ -62,22 +70,33 @@ class _PokemonListDesktopState extends ConsumerState<PokemonListDesktop> {
   }
 }
 
-/// Raw widget that displays a list of [PokemonListItem]s.
+/// Raw widget that displays a list of [PokemonListItem]s. Nethier this widget
+/// nor its children should have any business logic.
 class PokemonListDesktopView extends StatelessWidget {
   const PokemonListDesktopView({
     required this.pokemonList,
+    required this.resultsCount,
+    this.isLoadingMoreResults = false,
     this.onTap,
+    this.onLastIndexFetched,
     super.key,
   });
 
   final List<PokemonListItem> pokemonList;
   final Function(PokemonListItem)? onTap;
+  final Function()? onLastIndexFetched;
+  final int resultsCount;
+  final bool isLoadingMoreResults;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: PokemonSilverList(
+        child: PokemonSliverList(
+          sliverAppBar: const PokedexAppBar(),
+          resultsCount: resultsCount,
+          showLoading: isLoadingMoreResults,
+          onLastIndexFetched: onLastIndexFetched,
           children: pokemonList
               .map<Widget>(
                 (e) => PokemonListItemCard(

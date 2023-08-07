@@ -12,7 +12,15 @@ class PokemonNotifier extends StateNotifier<AsyncValue<PokemonState>> {
   int page = 1;
 
   Future<void> getPokemonList() async {
-    state = const AsyncLoading();
+    if (page == 1) {
+      state = const AsyncLoading();
+    } else {
+      await Future.delayed(const Duration(seconds: 1));
+      state = AsyncData(
+        state.value!.copyWith(isLoadingMoreResults: true),
+      );
+    }
+
     final failureOrPokemonList = await getPockemonsPage.call(page);
 
     if (failureOrPokemonList.$1 != null) {
@@ -26,9 +34,13 @@ class PokemonNotifier extends StateNotifier<AsyncValue<PokemonState>> {
             ...newItems,
           ],
           page: page,
+          count: failureOrPokemonList.$1!.count,
         ),
       );
     } else {
+      state = AsyncData(
+        state.value!.copyWith(isLoadingMoreResults: false),
+      );
       state = AsyncError(
         failureOrPokemonList.$2!,
         StackTrace.current,

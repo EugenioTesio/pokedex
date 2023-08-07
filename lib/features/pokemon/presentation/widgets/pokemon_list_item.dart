@@ -19,32 +19,35 @@ class PokemonListItemCard extends StatelessWidget {
     final (imageKey, imageUrl) = getKeyAndUrlToPkparaisoImage(
       pokemonListItem.url,
     );
-    return SizedBox(
-      width: 300,
-      height: 200,
-      child: Card(
-        elevation: 4,
-        shadowColor: Theme.of(context).colorScheme.tertiary,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                ImageCacherWidget(
-                  width: 150,
-                  height: 150,
-                  imageUrl: imageUrl,
-                  imageKey: imageKey,
-                ),
-                AppGaps.gapH8,
-                AppText(
-                  pokemonListItem.name,
-                  maxLines: 2,
-                ),
-              ],
-            ),
-          ],
+    return InkWell(
+      onTap: () => onTap?.call(pokemonListItem),
+      child: SizedBox(
+        width: 300,
+        height: 200,
+        child: Card(
+          elevation: 4,
+          shadowColor: Theme.of(context).colorScheme.tertiary,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  ImageCacherWidget(
+                    width: 150,
+                    height: 150,
+                    imageUrl: imageUrl,
+                    imageKey: imageKey,
+                  ),
+                  AppGaps.gapH8,
+                  AppText(
+                    pokemonListItem.name,
+                    maxLines: 2,
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );

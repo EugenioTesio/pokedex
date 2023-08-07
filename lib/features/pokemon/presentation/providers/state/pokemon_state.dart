@@ -5,7 +5,9 @@ import 'package:pokedex/features/pokemon/domain/entities/pokemon_list.dart';
 class PokemonState extends Equatable {
   const PokemonState({
     required this.pokemonListItems,
+    this.count = 0,
     this.page = 0,
+    this.isLoadingMoreResults = false,
   });
 
   factory PokemonState.initial() {
@@ -14,11 +16,15 @@ class PokemonState extends Equatable {
 
   final List<PokemonListItem> pokemonListItems;
   final int page;
+  final int count;
+  final bool isLoadingMoreResults;
 
   @override
   List<Object?> get props => [
         pokemonListItems,
         page,
+        count,
+        isLoadingMoreResults,
       ];
 
   @override
@@ -27,10 +33,14 @@ class PokemonState extends Equatable {
   PokemonState copyWith({
     List<PokemonListItem>? pokemonListItems,
     int? page,
+    int? count,
+    bool? isLoadingMoreResults,
   }) {
     return PokemonState(
       pokemonListItems: pokemonListItems ?? this.pokemonListItems,
       page: page ?? this.page,
+      count: count ?? this.count,
+      isLoadingMoreResults: isLoadingMoreResults ?? this.isLoadingMoreResults,
     );
   }
 }

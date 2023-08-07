@@ -52,46 +52,43 @@ class PokemonRepositoryImpl extends PokemonRepository {
     int? limit,
     int offset = 0,
   }) async {
-    final isConnected = (await networkInfo.checkConnection()) ?? false;
     final pokemonListModelBox = await HiveDatabase.openBox<PokemonListModel>();
     final pokemonListSourceBox =
         await HiveDatabase.openBox<PokemonListSource>();
 
-    (PokemonList?, AppException?) result = (
-      null,
-      AppException(
-        message: 'No internet connection',
-      )
-    );
+    final wasFetchingFromLocalDataSource =
+        pokemonListSourceBox.get(0)?.localDataSource ?? false;
 
-    if (offset == 0 && isConnected) {
+    if (offset == 0) {
       // if offset == 0 means that we are fetching the first page
       await pokemonListModelBox.clear();
+    }
 
-      // change the localDataSource flag to true
+    var result = await _getAndCacheData(
+      limit: wasFetchingFromLocalDataSource ? offset + 50 : limit,
+      offset: wasFetchingFromLocalDataSource ? 0 : offset,
+      pokemonListModelBox: pokemonListModelBox,
+    );
+
+    // if success, clear localDataSource flag
+    if (result.$1 != null) {
       await pokemonListSourceBox.clear();
       await pokemonListSourceBox.add(const PokemonListSource());
-
-      result = await _getAndCacheData(limit, offset, pokemonListModelBox);
     }
 
-    if (offset == 0 && !isConnected) {
-      // return 1 object with all the records and with the next value prepared
-      // to fecth the next page
-      final lastPokemonListFetched = pokemonListModelBox.values.last;
+    // if there was an error fetching data from remote return the pokemon list
+    // from local storage
+    if (result.$2 != null) {
+      result = _getFromLocalDataStore(
+        pokemonListModelBox: pokemonListModelBox,
+        appException: result.$2,
+      );
 
-      for (var i = 0; i < pokemonListModelBox.length; i++) {
-        final pokemonList = pokemonListModelBox.getAt(i);
-        if (i == pokemonListModelBox.length - 1) {
-          lastPokemonListFetched.results.addAll(pokemonList!.results);
-        }
-      }
-
-      result = (lastPokemonListFetched.toEntity(), null);
-    }
-
-    if (offset != 0 && isConnected) {
-      result = await _getAndCacheData(limit, offset, pokemonListModelBox);
+      // set localDataSource flag
+      await pokemonListSourceBox.clear();
+      await pokemonListSourceBox.add(
+        const PokemonListSource(localDataSource: true),
+      );
     }
 
     await pokemonListModelBox.close();
@@ -100,12 +97,37 @@ class PokemonRepositoryImpl extends PokemonRepository {
     return result;
   }
 
+  /// Return 1 page with all the [PokemonListItemModel]. The page will have
+  /// the offset and limit properly set to fetch the next data
+  (PokemonList?, AppException?) _getFromLocalDataStore({
+    required Box<PokemonListModel> pokemonListModelBox,
+    required AppException? appException,
+  }) {
+    var count = 0;
+
+    final pokemonListFromLocalDataSource = PokemonListModel(
+      count: count,
+      results: [],
+      next: pokemonListModelBox.values.last.next,
+    );
+
+    for (final pokemonList in pokemonListModelBox.values) {
+      pokemonListFromLocalDataSource.results.addAll(pokemonList.results);
+      count += pokemonList.count;
+    }
+
+    return (
+      pokemonListFromLocalDataSource.copyWith(count: count).toEntity(),
+      appException,
+    );
+  }
+
   /// Fetch data from remote and cache it into local storage
-  Future<(PokemonList?, AppException?)> _getAndCacheData(
+  Future<(PokemonList?, AppException?)> _getAndCacheData({
+    required int offset,
+    required Box<PokemonListModel> pokemonListModelBox,
     int? limit,
-    int offset,
-    Box<PokemonListModel> pokemonListModelBox,
-  ) async {
+  }) async {
     final response = await pokemonRemoteDataSource.fetchPokemons(
       limit: limit,
       offset: offset,
