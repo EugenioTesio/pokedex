@@ -12,27 +12,26 @@ class ImageCacherRepositoryImpl extends ImageCacherRepository {
   final RemoteImageSource remoteImageSource;
 
   @override
-  Future<ImageCacher?> loadImage(String url) async {
-    final image = await localImageSource.loadImage(url);
+  Future<ImageCacher> loadImage({
+    required String key,
+    required String url,
+  }) async {
+    final image = await localImageSource.loadImage(key);
     if (image != null) {
       return image;
     } else {
       final image = await remoteImageSource.fetchImage(url);
-      if (image != null) {
-        await localImageSource.saveImage(url, image);
-        return ImageCacher(
-          imageBytes: image,
-          key: url,
-          lastModified: DateTime.now(),
-        );
-      } else {
-        return null;
-      }
+      await localImageSource.saveImage(key, image);
+      return ImageCacher(
+        imageBytes: image,
+        key: key,
+        lastModified: DateTime.now(),
+      );
     }
   }
 
   @override
-  Future<void> saveImage(String url, Uint8List image) async {
-    await localImageSource.saveImage(url, image);
+  Future<void> saveImage(String key, Uint8List image) async {
+    await localImageSource.saveImage(key, image);
   }
 }

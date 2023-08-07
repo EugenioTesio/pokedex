@@ -77,19 +77,15 @@ class PokemonListDesktopView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: Stack(
-          children: [
-            PokemonSilverList(
-              children: pokemonList
-                  .map<Widget>(
-                    (e) => PokemonListItemCard(
-                      pokemonListItem: e,
-                      onTap: onTap,
-                    ),
-                  )
-                  .toList(),
-            )
-          ],
+        child: PokemonSilverList(
+          children: pokemonList
+              .map<Widget>(
+                (e) => PokemonListItemCard(
+                  pokemonListItem: e,
+                  onTap: onTap,
+                ),
+              )
+              .toList(),
         ),
       ),
     );
