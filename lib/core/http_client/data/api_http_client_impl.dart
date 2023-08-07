@@ -42,7 +42,6 @@ class ApiHttpClient implements IHttpClient {
       switch (method) {
         case getMethod:
           response = await httpClient.get(uri, headers: headers);
-          debugPrint('Response: ${response.body}');
           break;
         case postMethod:
           headers['Content-Type'] = 'application/json';

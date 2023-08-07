@@ -27,8 +27,7 @@ class PokemonRemoteDataSource {
     String name,
   ) async {
     return client.get(
-      endpoint: pokemonEndpoint,
-      queryParams: {'name': name},
+      endpoint: '$pokemonEndpoint/$name',
       deserializeResponseFunction: PokemonDetailsModel.fromMap,
     );
   }

@@ -10,13 +10,13 @@ base class PokemonDetails {
     this.types,
   });
   final List<PokemonAbilities>? abilities;
-  final int baseExperience;
-  final int height;
-  final int id;
+  final int? baseExperience;
+  final int? height;
+  final int? id;
   final String name;
   final PokemonSprites? sprites;
   final List<PokemonTypes>? types;
-  final int weight;
+  final int? weight;
 }
 
 base class PokemonAbilities {
@@ -26,8 +26,8 @@ base class PokemonAbilities {
     required this.slot,
   });
   final PokemonAbility? ability;
-  final bool isHidden;
-  final int slot;
+  final bool? isHidden;
+  final int? slot;
 }
 
 base class PokemonAbility {
@@ -44,7 +44,7 @@ base class PokemonTypes {
     required this.slot,
     required this.type,
   });
-  final int slot;
+  final int? slot;
   final PokemonType type;
 }
 

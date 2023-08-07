@@ -10,4 +10,7 @@ abstract class PokemonRepository {
   Future<(PokemonDetails?, AppException?)> fetchPokemonDetails(
     String name,
   );
+  Future<(PokemonDetails?, AppException?)> getPokemonDetails(
+    String name,
+  );
 }

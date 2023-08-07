@@ -21,13 +21,13 @@ class PokemonDetailsModel {
   });
 
   @HiveField(0)
-  final int id;
+  final int? id;
   @HiveField(1)
   final String name;
   @HiveField(2)
-  final int height;
+  final int? height;
   @HiveField(3)
-  final int weight;
+  final int? weight;
   @HiveField(4)
   final List<PokemonAbilitiesModel>? abilities;
   @HiveField(5)
@@ -35,7 +35,7 @@ class PokemonDetailsModel {
   @HiveField(6)
   final List<PokemonTypesModel>? types;
   @HiveField(7)
-  final int baseExperience;
+  final int? baseExperience;
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
@@ -52,10 +52,10 @@ class PokemonDetailsModel {
 
   factory PokemonDetailsModel.fromMap(Map<String, dynamic> map) {
     return PokemonDetailsModel(
-      id: map['id'] as int,
+      id: map['id'] != null ? map['id'] as int : null,
       name: map['name'] as String,
-      height: map['height'] as int,
-      weight: map['weight'] as int,
+      height: map['height'] != null ? map['height'] as int : null,
+      weight: map['weight'] != null ? map['weight'] as int : null,
       abilities: map['abilities'] != null
           ? List<PokemonAbilitiesModel>.from(
               (map['abilities'] as List).map<PokemonAbilitiesModel?>(
@@ -73,7 +73,8 @@ class PokemonDetailsModel {
               ),
             )
           : null,
-      baseExperience: map['baseExperience'] as int,
+      baseExperience:
+          map['baseExperience'] != null ? map['baseExperience'] as int : null,
     );
   }
 
@@ -96,6 +97,7 @@ class PokemonDetailsModel {
   }
 }
 
+@HiveType(typeId: HiveConstants.pokemonAbilitiesModel)
 class PokemonAbilitiesModel {
   const PokemonAbilitiesModel({
     required this.ability,
@@ -103,9 +105,12 @@ class PokemonAbilitiesModel {
     required this.slot,
   });
 
+  @HiveField(0)
   final PokemonAbilityModel? ability;
-  final bool isHidden;
-  final int slot;
+  @HiveField(1)
+  final bool? isHidden;
+  @HiveField(2)
+  final int? slot;
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
@@ -120,8 +125,8 @@ class PokemonAbilitiesModel {
       ability: map['ability'] != null
           ? PokemonAbilityModel.fromMap(map['ability'] as Map<String, dynamic>)
           : null,
-      isHidden: map['isHidden'] as bool,
-      slot: map['slot'] as int,
+      isHidden: map['isHidden'] != null ? map['isHidden'] as bool : null,
+      slot: map['slot'] != null ? map['slot'] as int : null,
     );
   }
 
@@ -141,13 +146,16 @@ class PokemonAbilitiesModel {
   }
 }
 
+@HiveType(typeId: HiveConstants.pokemonAbilityModel)
 class PokemonAbilityModel {
   const PokemonAbilityModel({
     required this.name,
     required this.url,
   });
 
+  @HiveField(0)
   final String name;
+  @HiveField(1)
   final String url;
 
   Map<String, dynamic> toMap() {
@@ -177,13 +185,16 @@ class PokemonAbilityModel {
   }
 }
 
+@HiveType(typeId: HiveConstants.pokemonTypesModel)
 class PokemonTypesModel {
   const PokemonTypesModel({
     required this.slot,
     required this.type,
   });
 
-  final int slot;
+  @HiveField(0)
+  final int? slot;
+  @HiveField(1)
   final PokemonTypeModel type;
 
   Map<String, dynamic> toMap() {
@@ -195,7 +206,7 @@ class PokemonTypesModel {
 
   factory PokemonTypesModel.fromMap(Map<String, dynamic> map) {
     return PokemonTypesModel(
-      slot: map['slot'] as int,
+      slot: map['slot'] != null ? map['slot'] as int : null,
       type: PokemonTypeModel.fromMap(map['type'] as Map<String, dynamic>),
     );
   }
@@ -213,13 +224,16 @@ class PokemonTypesModel {
   }
 }
 
+@HiveType(typeId: HiveConstants.pokemonTypeModel)
 class PokemonTypeModel {
   const PokemonTypeModel({
     required this.name,
     required this.url,
   });
 
+  @HiveField(0)
   final String name;
+  @HiveField(1)
   final String url;
 
   Map<String, dynamic> toMap() {
@@ -249,6 +263,7 @@ class PokemonTypeModel {
   }
 }
 
+@HiveType(typeId: HiveConstants.pokemonSpritesModel)
 class PokemonSpritesModel {
   const PokemonSpritesModel({
     required this.backDefault,
@@ -261,13 +276,21 @@ class PokemonSpritesModel {
     required this.frontShinyFemale,
   });
 
+  @HiveField(0)
   final String? backDefault;
+  @HiveField(1)
   final String? backFemale;
+  @HiveField(2)
   final String? backShiny;
+  @HiveField(3)
   final String? backShinyFemale;
+  @HiveField(4)
   final String? frontDefault;
+  @HiveField(5)
   final String? frontFemale;
+  @HiveField(6)
   final String? frontShiny;
+  @HiveField(7)
   final String? frontShinyFemale;
 
   Map<String, dynamic> toMap() {

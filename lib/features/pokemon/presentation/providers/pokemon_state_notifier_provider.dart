@@ -6,7 +6,9 @@ import 'package:pokedex/features/pokemon/presentation/providers/state/pokemon_st
 final poekmonStateNotifierProvider =
     StateNotifierProvider<PokemonNotifier, AsyncValue<PokemonState>>((ref) {
   final getPockemonsPage = ref.watch(getPokemonsPageProvider);
+  final getPockemonsPageDetails = ref.watch(getPokemonsDetailsProvider);
   return PokemonNotifier(
     getPockemonsPage: getPockemonsPage,
+    getPokemonDetails: getPockemonsPageDetails,
   )..init();
 });

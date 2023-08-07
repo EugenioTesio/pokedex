@@ -9,6 +9,7 @@ class PokemonSliverList extends StatelessWidget {
     required this.resultsCount,
     this.scrollController,
     this.onLastIndexFetched,
+    this.onItemBuilt,
     super.key,
   });
 
@@ -17,6 +18,7 @@ class PokemonSliverList extends StatelessWidget {
   final bool showLoading;
   final int resultsCount;
   final VoidCallback? onLastIndexFetched;
+  final void Function(int index)? onItemBuilt;
   final Widget sliverAppBar;
 
   @override
@@ -46,6 +48,8 @@ class PokemonSliverList extends StatelessWidget {
                       ),
                     );
                   }
+
+                  onItemBuilt?.call(index);
 
                   //* Normal logic
                   return children[index];

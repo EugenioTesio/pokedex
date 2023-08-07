@@ -27,7 +27,7 @@ final getPokemonsPageProvider = Provider<GetPokemonsPage>((ref) {
   return GetPokemonsPage(pokemonRepository: pokemonRepository);
 });
 
-final getPokemonsDetailsProvider = Provider<GetPokemonDetatails>((ref) {
+final getPokemonsDetailsProvider = Provider<GetPokemonDetails>((ref) {
   final pokemonRepository = ref.watch(pokemonListRepositoryProvider);
-  return GetPokemonDetatails(pokemonRepository: pokemonRepository);
+  return GetPokemonDetails(pokemonRepository: pokemonRepository);
 });

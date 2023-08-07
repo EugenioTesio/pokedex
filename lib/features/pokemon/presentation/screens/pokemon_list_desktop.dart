@@ -38,6 +38,9 @@ class PokemonListDesktop extends ConsumerWidget {
         resultsCount: poekmonState.value.count,
         onLastIndexFetched: pokemonNotifier.fetchPokemons,
         isLoadingMoreResults: poekmonState.value.isLoadingMoreResults,
+        onItemBuilt: (index) {
+          pokemonNotifier.getPokemonDetails(pokemonList[index].name);
+        },
         onTap: (pokemonListItem) {
           context.goNamed(
             AppRoute.pokemonDetails.name,
@@ -62,12 +65,14 @@ class PokemonListDesktopView extends StatelessWidget {
     this.isLoadingMoreResults = false,
     this.onTap,
     this.onLastIndexFetched,
+    this.onItemBuilt,
     super.key,
   });
 
   final List<PokemonListItem> pokemonList;
   final Function(PokemonListItem)? onTap;
   final Function()? onLastIndexFetched;
+  final Function(int index)? onItemBuilt;
   final int resultsCount;
   final bool isLoadingMoreResults;
 
@@ -80,6 +85,7 @@ class PokemonListDesktopView extends StatelessWidget {
           resultsCount: resultsCount,
           showLoading: isLoadingMoreResults,
           onLastIndexFetched: onLastIndexFetched,
+          onItemBuilt: onItemBuilt,
           children: pokemonList
               .map<Widget>(
                 (e) => PokemonListItemCard(

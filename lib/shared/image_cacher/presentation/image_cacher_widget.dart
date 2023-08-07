@@ -52,9 +52,10 @@ class _ImageCacherWidgetState extends ConsumerState<ImageCacherWidget> {
   Widget build(BuildContext context) {
     return ClipRRect(
       borderRadius: BorderRadius.circular(10),
-      child: SizedBox(
+      child: Container(
         width: widget.width,
         height: widget.height,
+        color: Theme.of(context).colorScheme.secondary,
         child: asyncImageCacher.when(
           error: (error, stackTrace) => Icon(
             Icons.error,

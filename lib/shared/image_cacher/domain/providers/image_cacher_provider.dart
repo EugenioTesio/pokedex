@@ -12,7 +12,7 @@ final imageCacherRepositoryProvider = Provider<ImageCacherRepository>(
 );
 
 final getAndCacheImageStreamProvider =
-    FutureProvider.autoDispose.family<ImageCacher, ImageCacherLoadPayload>(
+    FutureProvider.family<ImageCacher, ImageCacherLoadPayload>(
   (ref, payload) async {
     final imageCacherRepository = ref.watch(imageCacherRepositoryProvider);
     return imageCacherRepository.loadImage(

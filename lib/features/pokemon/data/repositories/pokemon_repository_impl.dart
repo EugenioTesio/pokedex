@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/foundation.dart';
 import 'package:hive/hive.dart';
 import 'package:pokedex/core/data_stores/hive_database.dart';
 import 'package:pokedex/core/http_client/domain/http_client_exception.dart';
@@ -30,18 +31,16 @@ class PokemonRepositoryImpl extends PokemonRepository {
       // if the response is not null, we save it to local storage
       await pokemonDetailsBox.clear();
       await pokemonDetailsBox.put(name, response.$1!);
-      await pokemonDetailsBox.close();
 
       return (response.$1!.toEntity(), null);
     } else {
+      debugPrint('Error fetching pokemon details: ${response.$2}');
       // if the response is null, we check if we have data in local storage
       final pokemonDetails = pokemonDetailsBox.get(name);
-      await pokemonDetailsBox.close();
       if (pokemonDetails != null) {
         return (pokemonDetails.toEntity(), response.$2);
       } else {
         // return an error if we don't have data in local storage
-        await pokemonDetailsBox.close();
         return (null, response.$2);
       }
     }
@@ -140,6 +139,20 @@ class PokemonRepositoryImpl extends PokemonRepository {
       return (response.$1!.toEntity(), null);
     } else {
       return (null, response.$2);
+    }
+  }
+
+  @override
+  Future<(PokemonDetails?, AppException?)> getPokemonDetails(
+    String name,
+  ) async {
+    final pokemonDetailsBox = await HiveDatabase.openBox<PokemonDetailsModel>();
+    final pokemonDetails = pokemonDetailsBox.get(name);
+    if (pokemonDetails != null) {
+      await pokemonDetailsBox.close();
+      return (pokemonDetails.toEntity(), null);
+    } else {
+      return fetchPokemonDetails(name);
     }
   }
 }

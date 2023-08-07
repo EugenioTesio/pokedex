@@ -9,6 +9,11 @@ abstract class HiveConstants {
   static const int pokemonListSource = 3;
   static const int pokemonListItemModel = 4;
   static const int imageCacher = 5;
+  static const int pokemonAbilitiesModel = 6;
+  static const int pokemonSpritesModel = 7;
+  static const int pokemonTypesModel = 8;
+  static const int pokemonTypeModel = 9;
+  static const int pokemonAbilityModel = 10;
 }
 
 class HiveDatabase {
@@ -19,7 +24,12 @@ class HiveDatabase {
       ..registerAdapter(PokemonDetailsModelAdapter())
       ..registerAdapter(PokemonListSourceAdapter())
       ..registerAdapter(PokemonListItemModelAdapter())
-      ..registerAdapter(ImageCacherAdapter());
+      ..registerAdapter(ImageCacherAdapter())
+      ..registerAdapter(PokemonAbilitiesModelAdapter())
+      ..registerAdapter(PokemonSpritesModelAdapter())
+      ..registerAdapter(PokemonTypesModelAdapter())
+      ..registerAdapter(PokemonTypeModelAdapter())
+      ..registerAdapter(PokemonAbilityModelAdapter());
   }
 
   /// Open a hive box of the given name.
