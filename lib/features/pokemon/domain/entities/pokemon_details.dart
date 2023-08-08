@@ -67,6 +67,19 @@ base class PokemonSprites {
   final String? frontFemale;
   final String? frontShiny;
   final String? frontShinyFemale;
+
+  List<String> asList() {
+    final list = <String>[];
+    if (backDefault != null) list.add(backDefault!);
+    if (backFemale != null) list.add(backFemale!);
+    if (backShiny != null) list.add(backShiny!);
+    if (backShinyFemale != null) list.add(backShinyFemale!);
+    if (frontDefault != null) list.add(frontDefault!);
+    if (frontFemale != null) list.add(frontFemale!);
+    if (frontShiny != null) list.add(frontShiny!);
+    if (frontShinyFemale != null) list.add(frontShinyFemale!);
+    return list;
+  }
 }
 
 base class PokemonType {

@@ -4,7 +4,7 @@ import 'package:pokedex/features/pokemon/presentation/providers/state/pokemon_li
 import 'package:pokedex/features/pokemon/presentation/providers/state/pokemon_list_state.dart';
 
 final poekmonListStateNotifierProvider =
-    StateNotifierProvider<PokemonNotifier, AsyncValue<PokemonState>>((ref) {
+    StateNotifierProvider<PokemonNotifier, AsyncValue<PokemonListState>>((ref) {
   final getPockemonsPage = ref.watch(fetchPokemonPageProvider);
   final fetchPockemonsPageDetails = ref.watch(fetchPokemonsDetailsProvider);
   return PokemonNotifier(

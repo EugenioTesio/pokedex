@@ -10,16 +10,13 @@ import 'package:pokedex/features/pokemon/data/models/pokemon_list_model.dart';
 import 'package:pokedex/features/pokemon/domain/entities/pokemon_details.dart';
 import 'package:pokedex/features/pokemon/domain/entities/pokemon_list.dart';
 import 'package:pokedex/features/pokemon/domain/repositories/pokemon_repository.dart';
-import 'package:pokedex/shared/utils/network_info/domain/network_info.dart';
 
 class PokemonRepositoryImpl extends PokemonRepository {
   PokemonRepositoryImpl({
     required this.pokemonRemoteDataSource,
-    required this.networkInfo,
   });
 
   PokemonRemoteDataSource pokemonRemoteDataSource;
-  NetworkInfo networkInfo;
 
   @override
   Future<(PokemonDetails?, AppException?)> fetchPokemonDetails(

@@ -3,11 +3,11 @@ import 'package:pokedex/features/pokemon/domain/use_cases/fetch_pokemon_details.
 import 'package:pokedex/features/pokemon/domain/use_cases/fetch_pokemon_page.dart';
 import 'package:pokedex/features/pokemon/presentation/providers/state/pokemon_list_state.dart';
 
-class PokemonNotifier extends StateNotifier<AsyncValue<PokemonState>> {
+class PokemonNotifier extends StateNotifier<AsyncValue<PokemonListState>> {
   PokemonNotifier({
     required this.fetchPokemonPageUseCase,
     required this.fetchPokemonDetailsUseCase,
-  }) : super(AsyncData<PokemonState>(PokemonState.initial()));
+  }) : super(AsyncData<PokemonListState>(PokemonListState.initial()));
 
   final FetchPokemonPage fetchPokemonPageUseCase;
   final FetchPokemonDetails fetchPokemonDetailsUseCase;
@@ -35,7 +35,7 @@ class PokemonNotifier extends StateNotifier<AsyncValue<PokemonState>> {
       final newItems = failureOrPokemonList.$1!.results;
       page++;
       state = AsyncData(
-        PokemonState(
+        PokemonListState(
           pokemonListItems: [
             ...oldItems,
             ...newItems,

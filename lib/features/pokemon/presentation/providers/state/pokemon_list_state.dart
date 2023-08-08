@@ -2,16 +2,16 @@
 import 'package:equatable/equatable.dart';
 import 'package:pokedex/features/pokemon/domain/entities/pokemon_list.dart';
 
-class PokemonState extends Equatable {
-  const PokemonState({
+class PokemonListState extends Equatable {
+  const PokemonListState({
     required this.pokemonListItems,
     this.count = 0,
     this.page = 0,
     this.isLoadingMoreResults = false,
   });
 
-  factory PokemonState.initial() {
-    return const PokemonState(pokemonListItems: []);
+  factory PokemonListState.initial() {
+    return const PokemonListState(pokemonListItems: []);
   }
 
   final List<PokemonListItem> pokemonListItems;
@@ -30,13 +30,13 @@ class PokemonState extends Equatable {
   @override
   bool get stringify => true;
 
-  PokemonState copyWith({
+  PokemonListState copyWith({
     List<PokemonListItem>? pokemonListItems,
     int? page,
     int? count,
     bool? isLoadingMoreResults,
   }) {
-    return PokemonState(
+    return PokemonListState(
       pokemonListItems: pokemonListItems ?? this.pokemonListItems,
       page: page ?? this.page,
       count: count ?? this.count,

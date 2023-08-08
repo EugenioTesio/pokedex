@@ -30,7 +30,7 @@ final fetchPokemonsDetailsProvider = Provider<FetchPokemonDetails>((ref) {
   return FetchPokemonDetails(pokemonRepository: pokemonRepository);
 });
 
-final getPokemonsDetailsProvider = Provider<GetPokemonDetails>((ref) {
+final getPokemonDetailsProvider = Provider<GetPokemonDetails>((ref) {
   final pokemonRepository = ref.watch(pokemonListRepositoryProvider);
   return GetPokemonDetails(pokemonRepository: pokemonRepository);
 });
