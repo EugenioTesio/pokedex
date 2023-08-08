@@ -46,7 +46,7 @@ class PokemonDetailsModel {
       'abilities': abilities?.map((x) => x.toMap()).toList(),
       'sprites': sprites?.toMap(),
       'types': types?.map((x) => x.toMap()).toList(),
-      'baseExperience': baseExperience,
+      'base_experience': baseExperience,
     };
   }
 
@@ -74,7 +74,7 @@ class PokemonDetailsModel {
             )
           : null,
       baseExperience:
-          map['baseExperience'] != null ? map['baseExperience'] as int : null,
+          map['base_experience'] != null ? map['base_experience'] as int : null,
     );
   }
 
@@ -125,7 +125,7 @@ class PokemonAbilitiesModel {
       ability: map['ability'] != null
           ? PokemonAbilityModel.fromMap(map['ability'] as Map<String, dynamic>)
           : null,
-      isHidden: map['isHidden'] != null ? map['isHidden'] as bool : null,
+      isHidden: map['is_hidden'] != null ? map['is_hidden'] as bool : null,
       slot: map['slot'] != null ? map['slot'] as int : null,
     );
   }
@@ -295,36 +295,27 @@ class PokemonSpritesModel {
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
-      'backDefault': backDefault,
-      'backFemale': backFemale,
-      'backShiny': backShiny,
-      'backShinyFemale': backShinyFemale,
-      'frontDefault': frontDefault,
-      'frontFemale': frontFemale,
-      'frontShiny': frontShiny,
-      'frontShinyFemale': frontShinyFemale,
+      'front_default': frontDefault,
+      'front_shiny': frontShiny,
+      'front_female': frontFemale,
+      'front_shiny_female': frontShinyFemale,
+      'back_default': backDefault,
+      'back_shiny': backShiny,
+      'back_female': backFemale,
+      'back_shiny_female': backShinyFemale,
     };
   }
 
   factory PokemonSpritesModel.fromMap(Map<String, dynamic> map) {
     return PokemonSpritesModel(
-      backDefault:
-          map['backDefault'] != null ? map['backDefault'] as String : null,
-      backFemale:
-          map['backFemale'] != null ? map['backFemale'] as String : null,
-      backShiny: map['backShiny'] != null ? map['backShiny'] as String : null,
-      backShinyFemale: map['backShinyFemale'] != null
-          ? map['backShinyFemale'] as String
-          : null,
-      frontDefault:
-          map['frontDefault'] != null ? map['frontDefault'] as String : null,
-      frontFemale:
-          map['frontFemale'] != null ? map['frontFemale'] as String : null,
-      frontShiny:
-          map['frontShiny'] != null ? map['frontShiny'] as String : null,
-      frontShinyFemale: map['frontShinyFemale'] != null
-          ? map['frontShinyFemale'] as String
-          : null,
+      frontDefault: map['front_default'] as String?,
+      frontShiny: map['front_shiny'] as String?,
+      frontFemale: map['front_female'] as String?,
+      frontShinyFemale: map['front_shiny_female'] as String?,
+      backDefault: map['back_default'] as String?,
+      backShiny: map['back_shiny'] as String?,
+      backFemale: map['back_female'] as String?,
+      backShinyFemale: map['back_shiny_female'] as String?,
     );
   }
 
