@@ -93,10 +93,16 @@ lib
     ```cmd
     flutter pub get
     ```
-4. Run de project
+4. Open an Android or iOS emulator
+5. Onces is opened, list the devices on flutter scope
+    ```cmd
+    flutter devices
+    ```
+
+4. Run de project targeting the device name (2nd column), usually Android emulators ends with (emulator) and iPhone simulators ends with (simulator)
 
     ```cmd
-    flutter pub run
+    flutter pub run -d <device_name>
     ```
 
 ## Features
