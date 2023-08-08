@@ -109,8 +109,10 @@ lib
 
 - Infinite list of pokemons fetched from https://pokeapi.co/api/v2/pokemon.
 - Pokemon details screen.
-- State managment with [Riverpod](https://riverpod.dev/)
-- Use [Hive](https://docs.hivedb.dev/#/README) for saving data and images on local store
+- State managment with [Riverpod](https://riverpod.dev/).
+- Use [Hive](https://docs.hivedb.dev/#/README) for saving data and images on local store.
+- CI/CD with GitHub Actions 
+- Live preview autodeployment.
 
 ## Supported platforms
 
