@@ -10,14 +10,14 @@ class LocalImageSource {
     return imageCacher;
   }
 
-  Future<void> saveImage(String key, Uint8List image) async {
+  Future<void> saveImage(String key, Uint8List imageBytes) async {
     try {
       debugPrint('LocalImageSource: saving image with key $key');
       final box = await HiveDatabase.openBox<ImageCacher>();
       await box.put(
         key,
         ImageCacher(
-          imageBytes: image,
+          imageBytes: imageBytes,
           key: key,
           lastModified: DateTime.now(),
         ),
