@@ -16,6 +16,7 @@ analyzer:
   errors:
     always_use_package_imports: error
     invalid_annotation_target: ignore
+    depend_on_referenced_packages: ignore
   exclude:
     - "**.g.dart"
 

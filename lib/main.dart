@@ -4,6 +4,7 @@ import 'package:pokedex/app.dart';
 import 'package:pokedex/core/data_stores/hive_database.dart';
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   await HiveDatabase.initialize();
   runApp(const MainApp());
 }

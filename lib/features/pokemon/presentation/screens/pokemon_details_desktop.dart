@@ -1,10 +1,12 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:pokedex/core/constants/sizes.dart';
 import 'package:pokedex/core/constants/theme.dart';
 import 'package:pokedex/features/pokemon/presentation/providers/pokemon_providers.dart';
+import 'package:pokedex/shared/utils/dialogs.dart';
 import 'package:pokedex/shared/widgets/draggable_sheet_widget.dart';
 import 'package:pokedex/shared/widgets/image_carousel.dart';
 import 'package:pokedex/shared/widgets/no_image_placeholder.dart';
@@ -47,28 +49,36 @@ class PokemonDetailsDesktop extends ConsumerWidget {
                     Positioned.fill(
                       child: Align(
                         alignment: Alignment.topCenter,
-                        child: Row(
-                          children: [
-                            Padding(
-                              padding: AppPaddings.padTop20Left10,
-                              child: IconButton(
-                                onPressed: () {
-                                  context.pop();
-                                },
-                                icon: const Icon(Icons.arrow_back),
+                        child: SafeArea(
+                          child: Row(
+                            children: [
+                              Padding(
+                                padding: AppPaddings.padTop20Left10,
+                                child: IconButton(
+                                  onPressed: () {
+                                    context.pop();
+                                  },
+                                  icon: const Icon(Icons.arrow_back),
+                                ),
                               ),
-                            ),
-                            const Spacer(),
-                            Padding(
-                              padding: AppPaddings.padTop20right10,
-                              child: IconButton(
-                                onPressed: () {
-                                  context.pop();
-                                },
-                                icon: const Icon(Icons.edit),
+                              const Spacer(),
+                              Padding(
+                                padding: AppPaddings.padTop20right10,
+                                child: IconButton(
+                                  onPressed: () {
+                                    AppDialogs.showCameraFullScreenDialog(
+                                      context,
+                                      (picture) => _saveImage(
+                                        picture,
+                                        ref,
+                                      ),
+                                    );
+                                  },
+                                  icon: const Icon(Icons.edit),
+                                ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                       ),
                     ),
@@ -193,5 +203,15 @@ class PokemonDetailsDesktop extends ConsumerWidget {
             ),
       ),
     );
+  }
+
+  Future<void> _saveImage(
+    XFile picture,
+    WidgetRef ref,
+  ) async {
+    final bytes = await picture.readAsBytes();
+    await ref
+        .read(poekmonDetailsStateNotifierProvider(name).notifier)
+        .saveImage(name, bytes);
   }
 }

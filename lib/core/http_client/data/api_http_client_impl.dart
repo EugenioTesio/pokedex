@@ -1,8 +1,8 @@
 import 'dart:convert';
 import 'dart:io';
 
-// ignore: depend_on_referenced_packages
 import 'package:flutter/foundation.dart';
+// ignore: depend_on_referenced_packages
 import 'package:http/http.dart' as http;
 import 'package:pokedex/core/http_client/domain/http_client.dart';
 import 'package:pokedex/core/http_client/domain/http_client_exception.dart';
@@ -147,7 +147,7 @@ class ApiHttpClient implements IHttpClient {
     Map<String, dynamic>? queryParams,
     DeserializeFromJson<AppException>? customErrorDeserializer,
   }) async {
-    final headers = await _buildHeaders();
+    final headers = _buildHeaders();
     final uri = Uri.parse(endpoint);
 
     final response = await httpClient.get(uri, headers: headers);
