@@ -12,6 +12,7 @@ class ImageCacherWidget extends ConsumerStatefulWidget {
     required this.imageUrl,
     required this.imageKey,
     this.fit,
+    this.color,
     super.key,
   });
 
@@ -20,6 +21,7 @@ class ImageCacherWidget extends ConsumerStatefulWidget {
   final String imageUrl;
   final String imageKey;
   final BoxFit? fit;
+  final Color? color;
 
   @override
   ConsumerState<ImageCacherWidget> createState() => _ImageCacherWidgetState();
@@ -51,28 +53,28 @@ class _ImageCacherWidgetState extends ConsumerState<ImageCacherWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(10),
-      child: Container(
-        width: widget.width,
-        height: widget.height,
-        color: Theme.of(context).colorScheme.secondary,
-        child: asyncImageCacher.when(
-          error: (error, stackTrace) => Icon(
-            Icons.error,
-            size: widget.width,
+    return SizedBox(
+      width: widget.width,
+      height: widget.height,
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(10),
+        child: Container(
+          color: widget.color,
+          child: asyncImageCacher.when(
+            error: (error, stackTrace) => Icon(
+              Icons.error,
+              size: widget.width,
+            ),
+            loading: () => ShimmerImageProgress(
+              size: widget.width,
+            ),
+            data: (imageCacher) => imageCacher != null
+                ? Image.memory(
+                    imageCacher.imageBytes,
+                    fit: BoxFit.fill,
+                  )
+                : const NoImagePlaceholder(),
           ),
-          loading: () => ShimmerImageProgress(
-            size: widget.width,
-          ),
-          data: (imageCacher) => imageCacher != null
-              ? Image.memory(
-                  imageCacher.imageBytes,
-                  fit: widget.fit,
-                  height: widget.height,
-                  width: widget.width,
-                )
-              : const NoImagePlaceholder(),
         ),
       ),
     );

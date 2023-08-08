@@ -62,4 +62,8 @@ class AppPaddings {
   static const padV4 = EdgeInsets.symmetric(vertical: 4);
   static const padV12 = EdgeInsets.symmetric(vertical: 12);
   static const padV28 = EdgeInsets.symmetric(vertical: 28);
+
+//* Specials
+  static const padTop20Left10 = EdgeInsets.only(top: 20, left: 10);
+  static const padTop20right10 = EdgeInsets.only(top: 20, right: 10);
 }

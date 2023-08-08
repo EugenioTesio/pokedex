@@ -33,7 +33,7 @@ class DraggableSheetWidget extends StatelessWidget {
                   color: Colors.black.withOpacity(0.1),
                 )
               ],
-              color: Colors.white,
+              color: Theme.of(context).cardColor,
             ),
             // Contents of the sheet
             child: ListView(

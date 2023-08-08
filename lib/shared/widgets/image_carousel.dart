@@ -17,12 +17,15 @@ class ImageCarousel extends StatelessWidget {
       ),
       items: imageUrls
           .map(
-            (item) => Center(
-              child: Image.network(
-                item,
-                fit: BoxFit.cover,
-                errorBuilder: (context, error, stackTrace) => const Center(
-                  child: Icon(Icons.broken_image),
+            (item) => Card(
+              child: Center(
+                child: Image.network(
+                  item,
+                  fit: BoxFit.fill,
+                  scale: 0.1,
+                  errorBuilder: (context, error, stackTrace) => const Center(
+                    child: Icon(Icons.broken_image),
+                  ),
                 ),
               ),
             ),

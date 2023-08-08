@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:pokedex/features/pokemon/presentation/screens/pokemon_list_desktop.dart';
-import 'package:pokedex/features/pokemon/presentation/screens/pokemon_list_mobile.dart';
 import 'package:pokedex/shared/widgets/responsive.dart';
 
 class PokemonListScreen extends StatelessWidget {
@@ -10,7 +9,6 @@ class PokemonListScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return const Scaffold(
       body: Responsive(
-        mobile: PokemonListMobile(),
         desktop: PokemonListDesktop(),
       ),
     );

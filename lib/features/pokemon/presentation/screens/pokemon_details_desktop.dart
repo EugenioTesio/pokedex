@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:pokedex/core/constants/sizes.dart';
+import 'package:pokedex/core/constants/theme.dart';
 import 'package:pokedex/features/pokemon/presentation/providers/pokemon_details_provider.dart';
 import 'package:pokedex/shared/widgets/draggable_sheet_widget.dart';
 import 'package:pokedex/shared/widgets/image_carousel.dart';
@@ -31,12 +32,16 @@ class PokemonDetailsDesktop extends ConsumerWidget {
                     Positioned.fill(
                       child: Align(
                         alignment: Alignment.topCenter,
-                        child: data.imageCacher != null
-                            ? Image.memory(
-                                data.imageCacher!.imageBytes,
-                                fit: BoxFit.fitWidth,
-                              )
-                            : const NoImagePlaceholder(),
+                        child: Padding(
+                          padding: AppPaddings.padAll16,
+                          child: data.imageCacher != null
+                              ? Image.memory(
+                                  data.imageCacher!.imageBytes,
+                                  fit: BoxFit.fitWidth,
+                                  scale: 0.4,
+                                )
+                              : const NoImagePlaceholder(),
+                        ),
                       ),
                     ),
                     Positioned.fill(
@@ -45,7 +50,7 @@ class PokemonDetailsDesktop extends ConsumerWidget {
                         child: Row(
                           children: [
                             Padding(
-                              padding: AppPaddings.padAll12,
+                              padding: AppPaddings.padTop20Left10,
                               child: IconButton(
                                 onPressed: () {
                                   context.pop();
@@ -55,7 +60,7 @@ class PokemonDetailsDesktop extends ConsumerWidget {
                             ),
                             const Spacer(),
                             Padding(
-                              padding: AppPaddings.padAll12,
+                              padding: AppPaddings.padTop20right10,
                               child: IconButton(
                                 onPressed: () {
                                   context.pop();
@@ -74,22 +79,41 @@ class PokemonDetailsDesktop extends ConsumerWidget {
                             //* Name
                             AppGaps.gapH20,
                             Text(
-                              data.pokemonDetails?.name ?? '',
-                              style: Theme.of(context).textTheme.headlineLarge,
+                              data.pokemonDetails?.name.toUpperCase() ?? '',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .displayMedium!
+                                  .copyWith(
+                                    letterSpacing: 4,
+                                    fontWeight: FontWeight.w500,
+                                  ),
                             ),
                             AppGaps.gapH20,
                             //* Height
                             Text(
                               'Height: ${data.pokemonDetails?.height ?? ''}',
-                              style: Theme.of(context).textTheme.labelMedium,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .labelMedium!
+                                  .copyWith(
+                                    letterSpacing: 3,
+                                    color:
+                                        Theme.of(context).colorScheme.tertiary,
+                                  ),
                             ),
                             //* Types Chips
                             AppGaps.gapH20,
                             if (data.pokemonDetails?.types != null) ...[
                               Text(
                                 'Types',
-                                style:
-                                    Theme.of(context).textTheme.headlineMedium,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .headlineMedium!
+                                    .copyWith(
+                                      letterSpacing: 2,
+                                      fontFamily: AppFontFamilies.pokemonHollow,
+                                      fontWeight: FontWeight.w600,
+                                    ),
                               ),
                               AppGaps.gapH20,
                               Wrap(
@@ -109,8 +133,14 @@ class PokemonDetailsDesktop extends ConsumerWidget {
                               AppGaps.gapH20,
                               Text(
                                 'Abilities',
-                                style:
-                                    Theme.of(context).textTheme.headlineMedium,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .headlineMedium!
+                                    .copyWith(
+                                      letterSpacing: 2,
+                                      fontFamily: AppFontFamilies.pokemonHollow,
+                                      fontWeight: FontWeight.w600,
+                                    ),
                               ),
                               AppGaps.gapH20,
                               Wrap(
@@ -132,8 +162,14 @@ class PokemonDetailsDesktop extends ConsumerWidget {
                               AppGaps.gapH20,
                               Text(
                                 'Sprites',
-                                style:
-                                    Theme.of(context).textTheme.headlineMedium,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .headlineMedium!
+                                    .copyWith(
+                                      letterSpacing: 2,
+                                      fontFamily: AppFontFamilies.pokemonHollow,
+                                      fontWeight: FontWeight.w600,
+                                    ),
                               ),
                               AppGaps.gapH20,
                               ImageCarousel(

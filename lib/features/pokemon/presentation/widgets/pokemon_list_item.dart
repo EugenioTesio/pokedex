@@ -21,30 +21,28 @@ class PokemonListItemCard extends StatelessWidget {
     );
     return InkWell(
       onTap: () => onTap?.call(pokemonListItem),
-      child: SizedBox(
-        width: 300,
-        height: 200,
-        child: Card(
-          elevation: 4,
-          shadowColor: Theme.of(context).colorScheme.tertiary,
-          child: Row(
+      child: Card(
+        elevation: 8,
+        shadowColor: Theme.of(context).colorScheme.background,
+        child: Padding(
+          padding: AppPaddings.padAll24,
+          child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  ImageCacherWidget(
-                    width: 150,
-                    height: 150,
-                    imageUrl: imageUrl,
-                    imageKey: imageKey,
-                  ),
-                  AppGaps.gapH8,
-                  AppText(
-                    pokemonListItem.name,
-                    maxLines: 2,
-                  ),
-                ],
+              ImageCacherWidget(
+                width: 150,
+                height: 150,
+                imageUrl: imageUrl,
+                imageKey: imageKey,
+              ),
+              AppGaps.gapH20,
+              AppText(
+                pokemonListItem.name.toUpperCase(),
+                style: Theme.of(context).textTheme.displayMedium!.copyWith(
+                      letterSpacing: 4,
+                      fontWeight: FontWeight.w500,
+                    ),
+                maxLines: 2,
               ),
             ],
           ),

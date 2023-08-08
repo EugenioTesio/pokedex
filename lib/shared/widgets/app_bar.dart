@@ -8,14 +8,10 @@ class PokedexAppBar extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return SliverAppBar(
+    return const SliverAppBar(
       scrolledUnderElevation: 0,
-      backgroundColor: Theme.of(context).colorScheme.tertiary.withAlpha(40),
       centerTitle: false,
-      titleTextStyle: Theme.of(context).textTheme.titleLarge?.copyWith(
-            fontWeight: FontWeight.bold,
-          ),
-      title: const Row(
+      title: Row(
         children: [
           Text(
             'Pokedex',
@@ -23,7 +19,7 @@ class PokedexAppBar extends ConsumerWidget {
           ),
         ],
       ),
-      actions: const [
+      actions: [
         Row(
           children: [
             DarkModeSwitch(),
