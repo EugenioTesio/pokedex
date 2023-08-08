@@ -14,6 +14,7 @@ class AppDialogs {
       barrierLabel: MaterialLocalizations.of(context).modalBarrierDismissLabel,
       barrierColor: Colors.black45,
       transitionDuration: const Duration(milliseconds: 200),
+      useRootNavigator: true,
       pageBuilder: (
         BuildContext buildContext,
         Animation animation,
@@ -33,11 +34,14 @@ class AppDialogs {
                 ),
               );
             }
-            if (snapshot.data == null) {
+            if (snapshot.data == null || snapshot.data!.isEmpty) {
               return Center(
-                child: AppText(
-                  'No cameras found',
-                  style: Theme.of(context).textTheme.labelLarge,
+                child: ColoredBox(
+                  color: Theme.of(context).colorScheme.surface,
+                  child: AppText(
+                    'No cameras found',
+                    style: Theme.of(context).textTheme.labelLarge,
+                  ),
                 ),
               );
             }
