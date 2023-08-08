@@ -120,8 +120,7 @@ lib
 
 ## Screenshots
 
-- | - | -
-:-:|:-:|:-:
-![Screenshot_1691511609](https://github.com/EugenioTesio/pokedex/assets/5660624/7924d1cd-6762-4126-abf5-c734a718fd05) | ![Simulator Screenshot - iPhone 14 - 2023-08-08 at 13 16 56](https://github.com/EugenioTesio/pokedex/assets/5660624/6a8be120-8418-4aaf-85d0-64c2eb971b57) | ![Simulator Screenshot - iPhone 14 - 2023-08-08 at 13 17 04](https://github.com/EugenioTesio/pokedex/assets/5660624/b183f817-89d5-40a1-97d4-b14d3319c0b0)
-![Simulator Screenshot - iPhone 14 - 2023-08-08 at 13 17 14](https://github.com/EugenioTesio/pokedex/assets/5660624/2fd31179-b3f7-4af7-a92d-909e842296f7) | ![Simulator Screenshot - iPhone 14 - 2023-08-08 at 13 17 20](https://github.com/EugenioTesio/pokedex/assets/5660624/419ab232-5108-4e40-b41c-9d72b83f0e2c) | ![Simulator Screenshot - iPhone 14 - 2023-08-08 at 13 17 26](https://github.com/EugenioTesio/pokedex/assets/5660624/cb6c8896-dd00-4262-9af0-9dc415fe4c2c)
+| ![Screenshot_1691511609](https://github.com/EugenioTesio/pokedex/assets/5660624/7924d1cd-6762-4126-abf5-c734a718fd05) | ![Simulator Screenshot - iPhone 14 - 2023-08-08 at 13 16 56](https://github.com/EugenioTesio/pokedex/assets/5660624/6a8be120-8418-4aaf-85d0-64c2eb971b57) | ![Simulator Screenshot - iPhone 14 - 2023-08-08 at 13 17 04](https://github.com/EugenioTesio/pokedex/assets/5660624/b183f817-89d5-40a1-97d4-b14d3319c0b0) |
+| - | - | - |
+| ![Simulator Screenshot - iPhone 14 - 2023-08-08 at 13 17 14](https://github.com/EugenioTesio/pokedex/assets/5660624/2fd31179-b3f7-4af7-a92d-909e842296f7) | ![Simulator Screenshot - iPhone 14 - 2023-08-08 at 13 17 20](https://github.com/EugenioTesio/pokedex/assets/5660624/419ab232-5108-4e40-b41c-9d72b83f0e2c) | ![Simulator Screenshot - iPhone 14 - 2023-08-08 at 13 17 26](https://github.com/EugenioTesio/pokedex/assets/5660624/cb6c8896-dd00-4262-9af0-9dc415fe4c2c) |
 
