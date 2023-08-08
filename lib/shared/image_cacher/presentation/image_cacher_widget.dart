@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pokedex/shared/image_cacher/domain/entity/image_cacher.dart';
 import 'package:pokedex/shared/image_cacher/domain/providers/image_cacher_provider.dart';
 import 'package:pokedex/shared/widgets/image_progress.dart';
+import 'package:pokedex/shared/widgets/no_image_placeholder.dart';
 
 class ImageCacherWidget extends ConsumerStatefulWidget {
   const ImageCacherWidget({
@@ -25,7 +26,7 @@ class ImageCacherWidget extends ConsumerStatefulWidget {
 }
 
 class _ImageCacherWidgetState extends ConsumerState<ImageCacherWidget> {
-  late AsyncValue<ImageCacher> asyncImageCacher;
+  late AsyncValue<ImageCacher?> asyncImageCacher;
   @override
   void initState() {
     asyncImageCacher = const AsyncValue.loading();
@@ -64,12 +65,14 @@ class _ImageCacherWidgetState extends ConsumerState<ImageCacherWidget> {
           loading: () => ShimmerImageProgress(
             size: widget.width,
           ),
-          data: (imageCacher) => Image.memory(
-            imageCacher.imageBytes,
-            fit: widget.fit,
-            height: widget.height,
-            width: widget.width,
-          ),
+          data: (imageCacher) => imageCacher != null
+              ? Image.memory(
+                  imageCacher.imageBytes,
+                  fit: widget.fit,
+                  height: widget.height,
+                  width: widget.width,
+                )
+              : const NoImagePlaceholder(),
         ),
       ),
     );

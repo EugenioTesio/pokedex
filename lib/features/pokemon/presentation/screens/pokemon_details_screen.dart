@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pokedex/features/pokemon/presentation/screens/pokemon_details_desktop.dart';
 import 'package:pokedex/shared/widgets/responsive.dart';
 
 class PokemonDetailsScreen extends StatelessWidget {
@@ -12,8 +13,7 @@ class PokemonDetailsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Responsive(
-      desktop: Container(),
-      mobile: Container(),
+      desktop: PokemonDetailsDesktop(name: name),
     );
   }
 }
