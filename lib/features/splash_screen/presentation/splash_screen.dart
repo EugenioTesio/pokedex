@@ -12,10 +12,11 @@ class SplashScreen extends StatefulWidget {
 }
 
 class SplashScreenState extends State<SplashScreen> {
+  Timer? timer;
   @override
   void initState() {
     super.initState();
-    Timer(const Duration(seconds: 1), () {
+    timer = Timer(const Duration(seconds: 1), () {
       context.goNamed(AppRoute.pokemons.name);
     });
   }
@@ -29,5 +30,12 @@ class SplashScreenState extends State<SplashScreen> {
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    timer?.cancel();
+    timer = null;
+    super.dispose();
   }
 }
