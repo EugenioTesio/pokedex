@@ -17,7 +17,7 @@ enum AppRoute {
 final goRouterProvider = Provider<GoRouter>((ref) {
   return GoRouter(
     errorBuilder: (context, state) => const NotFoundScreen(),
-    initialLocation: '/pokemon',
+    initialLocation: '/splash',
     debugLogDiagnostics: true,
     routes: [
       GoRoute(
