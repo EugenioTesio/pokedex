@@ -4,7 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:pokedex/core/constants/sizes.dart';
 import 'package:pokedex/core/constants/theme.dart';
-import 'package:pokedex/features/pokemon/presentation/providers/pokemon_details_provider.dart';
+import 'package:pokedex/features/pokemon/presentation/providers/pokemon_providers.dart';
 import 'package:pokedex/shared/widgets/draggable_sheet_widget.dart';
 import 'package:pokedex/shared/widgets/image_carousel.dart';
 import 'package:pokedex/shared/widgets/no_image_placeholder.dart';

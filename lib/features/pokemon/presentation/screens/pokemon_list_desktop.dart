@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:pokedex/core/routing/app_router.dart';
 import 'package:pokedex/features/pokemon/domain/entities/pokemon_list.dart';
-import 'package:pokedex/features/pokemon/presentation/providers/pokemon_list_provider.dart';
+import 'package:pokedex/features/pokemon/presentation/providers/pokemon_providers.dart';
 import 'package:pokedex/features/pokemon/presentation/providers/state/pokemon_list_state.dart';
 import 'package:pokedex/features/pokemon/presentation/widgets/pokemon_list_item.dart';
 import 'package:pokedex/features/pokemon/presentation/widgets/pokemon_sliver_list.dart';
