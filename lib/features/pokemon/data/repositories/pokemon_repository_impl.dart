@@ -62,11 +62,6 @@ class PokemonRepositoryImpl extends PokemonRepository {
     final wasFetchingFromLocalDataSource =
         pokemonListSourceBox.get(0)?.localDataSource ?? false;
 
-    if (offset == 0) {
-      // if offset == 0 means that we are fetching the first page
-      await pokemonListModelBox.clear();
-    }
-
     var result = await _getAndCacheData(
       limit: wasFetchingFromLocalDataSource ? offset + 50 : limit,
       offset: wasFetchingFromLocalDataSource ? 0 : offset,
@@ -139,6 +134,11 @@ class PokemonRepositoryImpl extends PokemonRepository {
 
     // add data to local storage
     if (response.$1 != null) {
+      if (offset == 0) {
+        // if offset == 0 means that we are fetching the first page
+        await pokemonListModelBox.clear();
+      }
+
       response.$1!.offset = offset;
       await pokemonListModelBox.add(response.$1!);
       return (response.$1!.toEntity(), null);
