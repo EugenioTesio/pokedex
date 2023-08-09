@@ -95,30 +95,35 @@ class PokemonRepositoryImpl extends PokemonRepository {
       );
     }
 
+    await pokemonListModelBox.close();
+    await pokemonListSourceBox.close();
+
     return result;
   }
 
   /// Return 1 page with all the [PokemonListItemModel]. The page will have
   /// the offset and limit properly set to fetch the next data
-  PokemonList? _getFromLocalDataStore({
+  PokemonList _getFromLocalDataStore({
     required Box<PokemonListModel> pokemonListModelBox,
   }) {
-    var count = 0;
+    try {
+      var count = 0;
 
-    final pokemonListFromLocalDataSource = PokemonListModel(
-      count: count,
-      results: [],
-      next: pokemonListModelBox.values.isNotEmpty
-          ? pokemonListModelBox.values.last.next
-          : null,
-    );
+      final pokemonListFromLocalDataSource = PokemonListModel(
+        count: count,
+        results: [],
+      );
 
-    for (final pokemonList in pokemonListModelBox.values) {
-      pokemonListFromLocalDataSource.results.addAll(pokemonList.results);
-      count += pokemonList.count;
+      for (final pokemonList in pokemonListModelBox.values) {
+        pokemonListFromLocalDataSource.results.addAll(pokemonList.results);
+        count += pokemonList.count;
+      }
+
+      return pokemonListFromLocalDataSource.copyWith(count: count).toEntity();
+    } on Exception catch (e) {
+      debugPrint('Error fetching data from local storage: $e');
+      return const PokemonList(count: 0, results: []);
     }
-
-    return pokemonListFromLocalDataSource.copyWith(count: count).toEntity();
   }
 
   /// Fetch data from remote and cache it into local storage

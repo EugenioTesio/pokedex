@@ -16,7 +16,7 @@ class PokemonListItemCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final (imageKey, imageUrl) = getKeyAndUrlToPkparaisoImage(
+    final imageUrl = getKeyAndUrlToPkparaisoImage(
       pokemonListItem.url,
     );
     return InkWell(
@@ -33,7 +33,7 @@ class PokemonListItemCard extends StatelessWidget {
                 width: 150,
                 height: 150,
                 imageUrl: imageUrl,
-                imageKey: imageKey,
+                imageKey: pokemonListItem.name,
               ),
               AppGaps.gapH20,
               AppText(
@@ -52,16 +52,13 @@ class PokemonListItemCard extends StatelessWidget {
   }
 
   /// Parse the url to get the image from pkparaiso
-  (String key, String url) getKeyAndUrlToPkparaisoImage(String url) {
+  String getKeyAndUrlToPkparaisoImage(String url) {
     final regex = RegExp(r'\/(\d+)\/$');
     final match = regex.firstMatch(url);
     final number = int.parse(match?.group(1) ?? '');
 
     //! Changed to raw.githubusercontent.com due to pkparaiso.com CORS policy
     //! https://github.com/flutter/flutter/issues/119297
-    return (
-      number.toString(),
-      'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/$number.png',
-    );
+    return 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/$number.png';
   }
 }
