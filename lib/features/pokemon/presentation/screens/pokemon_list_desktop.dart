@@ -39,7 +39,9 @@ class PokemonListDesktop extends ConsumerWidget {
         onLastIndexFetched: pokemonNotifier.fetchPokemons,
         isLoadingMoreResults: poekmonState.value.isLoadingMoreResults,
         onItemBuilt: (index) {
-          pokemonNotifier.fetchPokemonDetailsUseCase(pokemonList[index].name);
+          pokemonNotifier.fetchPokemonDetails(
+            pokemonList[index].name,
+          );
         },
         onTap: (pokemonListItem) {
           context.goNamed(

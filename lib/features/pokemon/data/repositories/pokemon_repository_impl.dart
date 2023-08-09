@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/foundation.dart';
 import 'package:hive/hive.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:pokedex/core/data_stores/hive_database.dart';
 import 'package:pokedex/core/http_client/domain/http_client_exception.dart';
 import 'package:pokedex/features/pokemon/data/datasources/remote_data_source.dart';
@@ -28,6 +29,10 @@ class PokemonRepositoryImpl extends PokemonRepository {
     final response = await pokemonRemoteDataSource.fetchPokemonDetails(name);
     final pokemonDetailsBox = await HiveDatabase.openBox<PokemonDetailsModel>();
     if (response.$1 != null) {
+      debugPrint(
+        'PokemonRepositoryImpl: fetched pokemon details from remote '
+        'data source',
+      );
       // if the response is not null, we save it to local storage
       await pokemonDetailsBox.clear();
       await pokemonDetailsBox.put(name, response.$1!);
@@ -38,6 +43,9 @@ class PokemonRepositoryImpl extends PokemonRepository {
       // if the response is null, we check if we have data in local storage
       final pokemonDetails = pokemonDetailsBox.get(name);
       if (pokemonDetails != null) {
+        debugPrint(
+          'PokemonRepositoryImpl: fetched pokemon details from local database',
+        );
         return (pokemonDetails.toEntity(), response.$2);
       } else {
         // return an error if we don't have data in local storage
