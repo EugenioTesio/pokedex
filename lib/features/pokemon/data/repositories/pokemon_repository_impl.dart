@@ -30,21 +30,29 @@ class PokemonRepositoryImpl extends PokemonRepository {
     final pokemonDetailsBox = await HiveDatabase.openBox<PokemonDetailsModel>();
     if (response.$1 != null) {
       debugPrint(
-        'PokemonRepositoryImpl: fetched pokemon details from remote '
-        'data source',
+        'PokemonRepositoryImpl: fetched pokemon details with name $name '
+        'from remote data source',
       );
       // if the response is not null, we save it to local storage
       await pokemonDetailsBox.clear();
       await pokemonDetailsBox.put(name, response.$1!);
-
+      debugPrint(
+        'PokemonRepositoryImpl: saved pokemon details with name: $name on '
+        'database',
+      );
       return (response.$1!.toEntity(), null);
     } else {
       debugPrint('Error fetching pokemon details: ${response.$2}');
       // if the response is null, we check if we have data in local storage
+      debugPrint(
+          'PokemonRepositoryImpl: Getting pokemon details with name: $name'
+          ' from database');
       final pokemonDetails = pokemonDetailsBox.get(name);
+      debugPrint('PokemonRepositoryImpl: Reuslt: $pokemonDetails');
       if (pokemonDetails != null) {
         debugPrint(
-          'PokemonRepositoryImpl: fetched pokemon details from local database',
+          'PokemonRepositoryImpl: fetched pokemon details with name $name '
+          'from local database',
         );
         return (pokemonDetails.toEntity(), response.$2);
       } else {
