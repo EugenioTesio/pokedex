@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:pokedex/core/constants/urls.dart';
 import 'package:pokedex/core/http_client/data/api_http_client_impl.dart';
 import 'package:pokedex/core/http_client/domain/http_client_exception.dart';
@@ -13,6 +14,10 @@ class PokemonRemoteDataSource {
     int? limit,
     int? offset,
   }) async {
+    debugPrint(
+      'PokemonRemoteDataSource: fetchPokemons called with '
+      '$limit, offset: $offset',
+    );
     return client.get(
       endpoint: pokemonEndpoint,
       queryParams: {
@@ -26,6 +31,9 @@ class PokemonRemoteDataSource {
   Future<(PokemonDetailsModel?, AppException?)> fetchPokemonDetails(
     String name,
   ) async {
+    debugPrint(
+      'PokemonRemoteDataSource: fetchPokemonDetails called with name: $name',
+    );
     return client.get(
       endpoint: '$pokemonEndpoint/$name',
       deserializeResponseFunction: PokemonDetailsModel.fromMap,

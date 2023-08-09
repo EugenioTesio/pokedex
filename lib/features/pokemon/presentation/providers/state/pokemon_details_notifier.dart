@@ -24,7 +24,7 @@ class PokemonDetailsStateNotifier
     final failureOrPokemonDetails = await getPokemonDetailsUseCase.call(name);
     if (failureOrPokemonDetails.$1 != null) {
       final imageCacher = await imageCacherRepository.loadImage(
-        key: failureOrPokemonDetails.$1!.id.toString(),
+        key: failureOrPokemonDetails.$1!.name,
       );
       state = AsyncData(
         PokemonDetailsState(

@@ -22,6 +22,9 @@ class PokemonRepositoryImpl extends PokemonRepository {
   Future<(PokemonDetails?, AppException?)> fetchPokemonDetails(
     String name,
   ) async {
+    debugPrint(
+      'PokemonRepositoryImpl: fetchPokemonDetails called with name: $name',
+    );
     final response = await pokemonRemoteDataSource.fetchPokemonDetails(name);
     final pokemonDetailsBox = await HiveDatabase.openBox<PokemonDetailsModel>();
     if (response.$1 != null) {
@@ -48,6 +51,10 @@ class PokemonRepositoryImpl extends PokemonRepository {
     int? limit,
     int offset = 0,
   }) async {
+    debugPrint(
+      'PokemonRepositoryImpl: fetchPokemons called with '
+      '$limit, offset: $offset',
+    );
     final pokemonListModelBox = await HiveDatabase.openBox<PokemonListModel>();
     final pokemonListSourceBox =
         await HiveDatabase.openBox<PokemonListSource>();
@@ -75,10 +82,11 @@ class PokemonRepositoryImpl extends PokemonRepository {
     // if there was an error fetching data from remote return the pokemon list
     // from local storage
     if (result.$2 != null) {
-      result = _getFromLocalDataStore(
+      final dataSourceValue = _getFromLocalDataStore(
         pokemonListModelBox: pokemonListModelBox,
-        appException: result.$2,
       );
+
+      result = (dataSourceValue, result.$2);
 
       // set localDataSource flag
       await pokemonListSourceBox.clear();
@@ -87,24 +95,22 @@ class PokemonRepositoryImpl extends PokemonRepository {
       );
     }
 
-    await pokemonListModelBox.close();
-    await pokemonListSourceBox.close();
-
     return result;
   }
 
   /// Return 1 page with all the [PokemonListItemModel]. The page will have
   /// the offset and limit properly set to fetch the next data
-  (PokemonList?, AppException?) _getFromLocalDataStore({
+  PokemonList? _getFromLocalDataStore({
     required Box<PokemonListModel> pokemonListModelBox,
-    required AppException? appException,
   }) {
     var count = 0;
 
     final pokemonListFromLocalDataSource = PokemonListModel(
       count: count,
       results: [],
-      next: pokemonListModelBox.values.last.next,
+      next: pokemonListModelBox.values.isNotEmpty
+          ? pokemonListModelBox.values.last.next
+          : null,
     );
 
     for (final pokemonList in pokemonListModelBox.values) {
@@ -112,10 +118,7 @@ class PokemonRepositoryImpl extends PokemonRepository {
       count += pokemonList.count;
     }
 
-    return (
-      pokemonListFromLocalDataSource.copyWith(count: count).toEntity(),
-      appException,
-    );
+    return pokemonListFromLocalDataSource.copyWith(count: count).toEntity();
   }
 
   /// Fetch data from remote and cache it into local storage

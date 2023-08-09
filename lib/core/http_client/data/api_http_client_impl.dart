@@ -69,6 +69,8 @@ class ApiHttpClient implements IHttpClient {
           throw Exception('Unsupported HTTP Method');
       }
     } on Exception catch (e) {
+      debugPrint('Error: $method $uri $e');
+
       return (
         null,
         AppException(

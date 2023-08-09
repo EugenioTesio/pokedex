@@ -17,7 +17,6 @@ class PokemonListDesktop extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final pokemonNotifier = ref.read(poekmonListStateNotifierProvider.notifier);
     ref.listen<AsyncValue<PokemonListState>>(
       poekmonListStateNotifierProvider,
       (_, state) => state.whenOrNull(
@@ -30,6 +29,7 @@ class PokemonListDesktop extends ConsumerWidget {
       ),
     );
 
+    final pokemonNotifier = ref.read(poekmonListStateNotifierProvider.notifier);
     final poekmonState = ref.watch(poekmonListStateNotifierProvider);
     if (poekmonState is AsyncData<PokemonListState>) {
       final pokemonList = poekmonState.value.pokemonListItems;
