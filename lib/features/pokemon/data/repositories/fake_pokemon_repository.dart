@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:pokedex/core/http_client/domain/http_client_exception.dart';
+import 'package:pokedex/core/http_client/domain/app_exception.dart';
 import 'package:pokedex/features/pokemon/data/models/pokemon_details_model.dart';
 import 'package:pokedex/features/pokemon/data/models/pokemon_list_model.dart';
 import 'package:pokedex/features/pokemon/domain/entities/pokemon_details.dart';

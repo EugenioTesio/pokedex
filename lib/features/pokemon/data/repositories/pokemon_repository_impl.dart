@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/foundation.dart';
-import 'package:pokedex/core/http_client/domain/http_client_exception.dart';
+import 'package:pokedex/core/http_client/domain/app_exception.dart';
 import 'package:pokedex/features/pokemon/data/datasources/local_data_source.dart';
 import 'package:pokedex/features/pokemon/data/datasources/remote_data_source.dart';
 import 'package:pokedex/features/pokemon/data/models/pokemon_list_model.dart';

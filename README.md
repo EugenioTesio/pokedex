@@ -113,7 +113,8 @@ lib
 - Use [Hive](https://docs.hivedb.dev/#/README) for saving data and images on local store.
 - CI/CD with GitHub Actions 
 - Live preview autodeployment.
-- Pokemon List works offline, still working on Pokemon Details.
+- Offline mode.
+- Scalable (Clean Architecture, more than 150 linter rules)
 
 ## Supported platforms
 

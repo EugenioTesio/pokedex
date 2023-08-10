@@ -1,4 +1,4 @@
-import 'package:pokedex/core/http_client/domain/http_client_exception.dart';
+import 'package:pokedex/core/http_client/domain/app_exception.dart';
 
 typedef SerializeToJson<T> = Map<String, dynamic> Function(T obj);
 typedef DeserializeFromJson<T> = T Function(Map<String, dynamic> json);

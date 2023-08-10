@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pokedex/core/http_client/domain/http_client_exception.dart';
+import 'package:pokedex/core/http_client/domain/app_exception.dart';
 import 'package:pokedex/features/pokemon/domain/entities/pokemon_list.dart';
 import 'package:pokedex/features/pokemon/domain/repositories/pokemon_repository.dart';
 
