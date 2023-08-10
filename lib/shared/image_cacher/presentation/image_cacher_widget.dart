@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:pokedex/shared/image_cacher/domain/entity/image_cacher.dart';
 import 'package:pokedex/shared/image_cacher/domain/providers/image_cacher_provider.dart';
 import 'package:pokedex/shared/widgets/image_progress.dart';
 import 'package:pokedex/shared/widgets/no_image_placeholder.dart';
 
-class ImageCacherWidget extends ConsumerStatefulWidget {
+class ImageCacherWidget extends ConsumerWidget {
   const ImageCacherWidget({
     required this.width,
     required this.height,
@@ -24,57 +23,33 @@ class ImageCacherWidget extends ConsumerStatefulWidget {
   final Color? color;
 
   @override
-  ConsumerState<ImageCacherWidget> createState() => _ImageCacherWidgetState();
-}
-
-class _ImageCacherWidgetState extends ConsumerState<ImageCacherWidget> {
-  late AsyncValue<ImageCacher?> asyncImageCacher;
-  @override
-  void initState() {
-    asyncImageCacher = const AsyncValue.loading();
-    ref
-        .read(imageCacherRepositoryProvider)
-        .loadImage(
-          key: widget.imageKey,
-          url: widget.imageUrl,
-        )
-        .then(
-          (value) => setState(
-            () => asyncImageCacher = AsyncValue.data(value),
-          ),
-        )
-        .catchError(
-          (error, stackTrace) => setState(
-            () => asyncImageCacher = AsyncValue.error(error, stackTrace),
-          ),
-        );
-    super.initState();
-  }
-
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return SizedBox(
-      width: widget.width,
-      height: widget.height,
+      width: width,
+      height: height,
       child: ClipRRect(
         borderRadius: BorderRadius.circular(10),
         child: Container(
-          color: widget.color,
-          child: asyncImageCacher.when(
-            error: (error, stackTrace) => Icon(
-              Icons.error,
-              size: widget.width,
-            ),
-            loading: () => ShimmerImageProgress(
-              size: widget.width,
-            ),
-            data: (imageCacher) => imageCacher != null
-                ? Image.memory(
-                    imageCacher.imageBytes,
-                    fit: BoxFit.fill,
-                  )
-                : const NoImagePlaceholder(),
-          ),
+          color: color,
+          child: ref
+              .watch(
+                imageCacherFutureProvider((imageKey, imageUrl)),
+              )
+              .when(
+                error: (error, stackTrace) => Icon(
+                  Icons.error,
+                  size: width,
+                ),
+                loading: () => ShimmerImageProgress(
+                  size: width,
+                ),
+                data: (imageCacher) => imageCacher != null
+                    ? Image.memory(
+                        imageCacher.imageBytes,
+                        fit: BoxFit.fill,
+                      )
+                    : const NoImagePlaceholder(),
+              ),
         ),
       ),
     );
