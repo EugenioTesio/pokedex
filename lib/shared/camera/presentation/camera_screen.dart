@@ -19,9 +19,9 @@ class CameraScreen extends StatefulWidget {
 
 class _CameraScreenState extends State<CameraScreen> {
   late CameraController _cameraController;
+  late XFile? _picture;
   bool _isRearCameraSelected = true;
   bool _showPreview = false;
-  XFile? _picture;
 
   @override
   void dispose() {
@@ -37,11 +37,13 @@ class _CameraScreenState extends State<CameraScreen> {
 
   Future takePicture() async {
     if (!_cameraController.value.isInitialized) {
+      debugPrint('Camera is not initialized');
       return null;
     }
-    // if (_cameraController.value.isTakingPicture) {
-    //   return null;
-    // }
+    if (_cameraController.value.isTakingPicture) {
+      debugPrint('Camera is already taking a picture');
+      return null;
+    }
     try {
       //await _cameraController.setFlashMode(FlashMode.off);
       _picture = await _cameraController.takePicture();
@@ -76,7 +78,10 @@ class _CameraScreenState extends State<CameraScreen> {
         child: _showPreview
             ? PreviewWidget(
                 picture: _picture!,
-                onAccept: () => context.pop(_picture),
+                onAccept: () {
+                  widget.onPictureTaken?.call(_picture!);
+                  context.pop();
+                },
                 onReject: () => context.pop(),
               )
             : Stack(
