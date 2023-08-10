@@ -1,4 +1,6 @@
-base class PokemonDetails {
+import 'package:equatable/equatable.dart';
+
+base class PokemonDetails extends Equatable {
   const PokemonDetails({
     required this.baseExperience,
     required this.height,
@@ -17,9 +19,23 @@ base class PokemonDetails {
   final PokemonSprites? sprites;
   final List<PokemonTypes>? types;
   final int? weight;
+
+  @override
+  List<Object?> get props {
+    return [
+      baseExperience,
+      height,
+      id,
+      name,
+      weight,
+      abilities,
+      sprites,
+      types,
+    ];
+  }
 }
 
-base class PokemonAbilities {
+base class PokemonAbilities extends Equatable {
   const PokemonAbilities({
     required this.ability,
     required this.isHidden,
@@ -28,27 +44,52 @@ base class PokemonAbilities {
   final PokemonAbility? ability;
   final bool? isHidden;
   final int? slot;
+
+  @override
+  List<Object?> get props {
+    return [
+      ability,
+      isHidden,
+      slot,
+    ];
+  }
 }
 
-base class PokemonAbility {
+base class PokemonAbility extends Equatable {
   const PokemonAbility({
     required this.name,
     required this.url,
   });
   final String name;
   final String url;
+
+  @override
+  List<Object?> get props {
+    return [
+      name,
+      url,
+    ];
+  }
 }
 
-base class PokemonTypes {
+base class PokemonTypes extends Equatable {
   const PokemonTypes({
     required this.slot,
     required this.type,
   });
   final int? slot;
   final PokemonType type;
+
+  @override
+  List<Object?> get props {
+    return [
+      slot,
+      type,
+    ];
+  }
 }
 
-base class PokemonSprites {
+base class PokemonSprites extends Equatable {
   const PokemonSprites({
     required this.backDefault,
     this.backFemale,
@@ -80,13 +121,35 @@ base class PokemonSprites {
     if (frontShinyFemale != null) list.add(frontShinyFemale!);
     return list;
   }
+
+  @override
+  List<Object?> get props {
+    return [
+      backDefault,
+      backFemale,
+      backShiny,
+      backShinyFemale,
+      frontDefault,
+      frontFemale,
+      frontShiny,
+      frontShinyFemale,
+    ];
+  }
 }
 
-base class PokemonType {
+base class PokemonType extends Equatable {
   const PokemonType({
     required this.name,
     required this.url,
   });
   final String name;
   final String url;
+
+  @override
+  List<Object?> get props {
+    return [
+      name,
+      url,
+    ];
+  }
 }
