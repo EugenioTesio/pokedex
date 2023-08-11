@@ -14,9 +14,11 @@ final imageCacherRepositoryProvider = Provider<ImageCacherRepository>(
 /// This provider is used to load the image from the cache or from the network.
 /// The family parameters are the key and the url of the image.
 final imageCacherFutureProvider =
-    FutureProvider.family<ImageCacher?, (String key, String url)>(
-  (ref, arg) async {
+    StreamProvider.family<ImageCacher?, (String key, String url)>(
+  (ref, arg) async* {
     final imageCacherRepository = ref.read(imageCacherRepositoryProvider);
-    return imageCacherRepository.loadImage(key: arg.$1, url: arg.$2);
+    await imageCacherRepository.loadImage(key: arg.$1, url: arg.$2);
+    yield* imageCacherRepository.imageCacherStream
+        .where((event) => event?.key == arg.$1);
   },
 );

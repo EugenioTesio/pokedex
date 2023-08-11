@@ -10,18 +10,17 @@ class LocalImageSource {
     return imageCacher;
   }
 
-  Future<void> saveImage(String key, Uint8List imageBytes) async {
+  Future<ImageCacher> saveImage(String key, Uint8List imageBytes) async {
     try {
       debugPrint('LocalImageSource: saving image with key $key');
       final box = await HiveDatabase.openBox<ImageCacher>();
-      await box.put(
-        key,
-        ImageCacher(
-          imageBytes: imageBytes,
-          key: key,
-          lastModified: DateTime.now(),
-        ),
+      final imageCacher = ImageCacher(
+        imageBytes: imageBytes,
+        key: key,
+        lastModified: DateTime.now(),
       );
+      await box.put(key, imageCacher);
+      return imageCacher;
     } on Exception catch (e) {
       debugPrint('LocalImageSource: error saving image $e');
       throw Exception('LocalImageSource: error saving image $e');

@@ -11,4 +11,5 @@ abstract class ImageCacherRepository {
     String key,
     Uint8List image,
   );
+  Stream<ImageCacher?> get imageCacherStream;
 }

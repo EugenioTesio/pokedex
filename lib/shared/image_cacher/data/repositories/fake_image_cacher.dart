@@ -22,4 +22,7 @@ class FakeImageCacherRepository extends ImageCacherRepository {
 
   @override
   Future<void> saveImage(String key, Uint8List image) async {}
+
+  @override
+  Stream<ImageCacher?> get imageCacherStream => Stream.value(imageCacher);
 }
