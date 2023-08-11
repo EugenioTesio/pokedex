@@ -114,7 +114,8 @@ lib
 - CI/CD with GitHub Actions 
 - Live preview autodeployment.
 - Offline mode.
-- Scalable (Clean Architecture, more than 150 linter rules)
+- Scalable (Clean Architecture, S.O.L.I.D. principles, more than 150 linter rules).
+- Change Pokemon image by using the Camera (desktop not supported).
 
 ## Supported platforms
 
