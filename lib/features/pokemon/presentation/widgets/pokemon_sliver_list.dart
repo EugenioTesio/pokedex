@@ -1,5 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
+import 'package:pokedex/core/constants/sizes.dart';
 
 class PokemonSliverList extends StatelessWidget {
   const PokemonSliverList({
@@ -10,6 +11,7 @@ class PokemonSliverList extends StatelessWidget {
     this.scrollController,
     this.onLastIndexFetched,
     this.onItemBuilt,
+    this.columns = 1,
     super.key,
   });
 
@@ -20,6 +22,7 @@ class PokemonSliverList extends StatelessWidget {
   final VoidCallback? onLastIndexFetched;
   final void Function(int index)? onItemBuilt;
   final Widget sliverAppBar;
+  final int columns;
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +33,17 @@ class PokemonSliverList extends StatelessWidget {
             controller: scrollController,
             slivers: [
               sliverAppBar,
-              SliverList.builder(
+              const SliverToBoxAdapter(
+                child: AppGaps.gapH12,
+              ),
+              SliverGrid.builder(
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: columns,
+                  crossAxisSpacing: 10,
+                  mainAxisSpacing: 10,
+                  mainAxisExtent: 300,
+                  childAspectRatio: 2,
+                ),
                 itemCount: children.length + (showLoading ? 1 : 0),
                 itemBuilder: (context, index) {
                   //* Last item logic
