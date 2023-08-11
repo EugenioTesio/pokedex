@@ -1,5 +1,4 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -60,15 +59,8 @@ class PokemonDetailsDesktop extends ConsumerWidget {
                             Padding(
                               padding: AppPaddings.padTop20right10,
                               child: IconButton(
-                                onPressed: () {
-                                  AppDialogs.showCameraFullScreenDialog(
-                                    context,
-                                    (picture) => _saveImage(
-                                      picture,
-                                      ref,
-                                    ),
-                                  );
-                                },
+                                onPressed: () =>
+                                    _showCameraDialog(context, ref),
                                 icon: const Icon(Icons.edit),
                               ),
                             ),
@@ -198,13 +190,12 @@ class PokemonDetailsDesktop extends ConsumerWidget {
     );
   }
 
-  Future<void> _saveImage(
-    XFile picture,
-    WidgetRef ref,
-  ) async {
-    final bytes = await picture.readAsBytes();
-    await ref
-        .read(poekmonDetailsStateNotifierProvider(name).notifier)
-        .saveImage(name, bytes);
+  void _showCameraDialog(BuildContext context, WidgetRef ref) {
+    AppDialogs.showCameraFullScreenDialog(
+      context,
+      (bytes) async => ref
+          .read(poekmonDetailsStateNotifierProvider(name).notifier)
+          .saveImage(name, bytes),
+    );
   }
 }

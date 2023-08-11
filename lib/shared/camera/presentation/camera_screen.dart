@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -11,7 +13,7 @@ class CameraScreen extends StatefulWidget {
   });
 
   final List<CameraDescription> cameras;
-  final void Function(XFile picture)? onPictureTaken;
+  final void Function(Uint8List bytes)? onPictureTaken;
 
   @override
   State<CameraScreen> createState() => _CameraScreenState();
@@ -19,7 +21,7 @@ class CameraScreen extends StatefulWidget {
 
 class _CameraScreenState extends State<CameraScreen> {
   late CameraController _cameraController;
-  late XFile? _picture;
+  late Uint8List? _bytes;
   bool _isRearCameraSelected = true;
   bool _showPreview = false;
 
@@ -46,7 +48,8 @@ class _CameraScreenState extends State<CameraScreen> {
     }
     try {
       //await _cameraController.setFlashMode(FlashMode.off);
-      _picture = await _cameraController.takePicture();
+      final picture = await _cameraController.takePicture();
+      _bytes = await picture.readAsBytes();
       _showPreview = true;
       setState(() {});
     } on CameraException catch (e) {
@@ -77,9 +80,9 @@ class _CameraScreenState extends State<CameraScreen> {
       body: SafeArea(
         child: _showPreview
             ? PreviewWidget(
-                picture: _picture!,
+                picture: _bytes!,
                 onAccept: () {
-                  widget.onPictureTaken?.call(_picture!);
+                  widget.onPictureTaken?.call(_bytes!);
                   context.pop();
                 },
                 onReject: () => context.pop(),

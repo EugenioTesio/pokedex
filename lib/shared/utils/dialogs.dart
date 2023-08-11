@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:pokedex/shared/camera/presentation/camera_screen.dart';
@@ -6,7 +8,7 @@ import 'package:pokedex/shared/widgets/app_text.dart';
 class AppDialogs {
   static Future<void> showCameraFullScreenDialog(
     BuildContext context,
-    Function(XFile)? onPictureTaken,
+    Function(Uint8List)? onPictureTaken,
   ) {
     return showGeneralDialog(
       context: context,

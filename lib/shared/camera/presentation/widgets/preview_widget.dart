@@ -1,6 +1,5 @@
-import 'dart:io';
+import 'dart:typed_data';
 
-import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:pokedex/core/constants/sizes.dart';
 
@@ -12,7 +11,7 @@ class PreviewWidget extends StatelessWidget {
     super.key,
   });
 
-  final XFile picture;
+  final Uint8List picture;
   final VoidCallback onAccept;
   final VoidCallback onReject;
 
@@ -22,8 +21,8 @@ class PreviewWidget extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Image.file(
-            File(picture.path),
+          Image.memory(
+            picture,
             fit: BoxFit.cover,
             width: 250,
           ),
