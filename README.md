@@ -21,29 +21,29 @@ lib
 ├── features
 │   └── feature
 │       ├── data
-│       │   ├── datasources # data transfer objects - data comming from external sources
+│       │   ├── datasources # any remote or local data source
 │       │   │   ├── remote_data_source.dart
 │       │   │   └── local_data_source.dart
-│       │   ├── models # data transfer objects - data comming from external sources
+│       │   ├── models # deserealization clases used in data sources
 │       │   │   └── feature_model.dart
-│       │   ├── repositories # different repositories implementations
+│       │   ├── repositories # domain repositories implementations
 │       │   │   ├── feature_repository_impl.dart
 │       │   │   └── fake_repository_impl.dart
 │       ├── domain
-│       │   ├── entities # the feature data model used by the pages/widgets
+│       │   ├── entities # the data model used in presentation layer
 │       │   │   └── feature.dart
 │       │   ├── providers # uses_cases and repositories providers
 │       │   │   ├── get_feature_provider.dart
 │       │   │   └── feature_repository_provider.dart
 │       │   ├── repositories # respository abstract contracts
 │       │   │   └── feature_repository.dart
-│       │   └── use_cases # get the feature data model from one or several dtos
+│       │   └── use_cases # clases representing the application uses cases
 │       │       ├── save_feature.dart
 │       │       └── get_feature.dart
 │       ├── exceptions # feature level exceptions
 │       │   └── some_exception.dart 
 │       ├── presentation
-│       │   ├── providers # provider state managment solution
+│       │   ├── providers # presentation providers
 │       │   │   ├── state
 │       │   │   │   ├── feature_notifier.dart # providers notifiers
 │       │   │   │   └── feature_state.dart # provider states
