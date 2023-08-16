@@ -26,12 +26,6 @@ jobs:
       # check for issues with formatting
       - run: dart format --line-length=80 --set-exit-if-changed .
 
-      # Add env file
-      - run: |
-          touch assets/env
-          echo 'FIREBASE_API_KEY = ${{ secrets.FIREBASE_API_KEY }}' > assets/env
-          cat assets/env
-
       # check for issues through static analysis
       - run: flutter analyze
 

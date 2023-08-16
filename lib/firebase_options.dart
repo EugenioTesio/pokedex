@@ -3,7 +3,6 @@
 import 'package:firebase_core/firebase_core.dart' show FirebaseOptions;
 import 'package:flutter/foundation.dart'
     show TargetPlatform, defaultTargetPlatform, kIsWeb;
-import 'package:pokedex/core/env/env.dart';
 
 /// Default [FirebaseOptions] for use with your Firebase apps.
 ///
@@ -54,8 +53,8 @@ class DefaultFirebaseOptions {
     }
   }
 
-  static final FirebaseOptions web = FirebaseOptions(
-    apiKey: Env.firebaseApiKey,
+  static const FirebaseOptions web = FirebaseOptions(
+    apiKey: 'AIzaSyChxwdEg822ycS7gM_TbsB7hMFsHXpV9hU',
     appId: '1:20294204441:web:348b6931d4f8fb228e3e88',
     messagingSenderId: '20294204441',
     projectId: 'pokedex-676eb',
