@@ -1,11 +1,25 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pokedex/app.dart';
 import 'package:pokedex/core/data_stores/hive_database.dart';
+import 'package:pokedex/firebase_options.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await HiveDatabase.initialize();
+
+  try {
+    await dotenv.load(fileName: 'env');
+  } catch (e) {
+    debugPrint('Error loading env/env file: $e');
+  }
+
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+
   runApp(const MainApp());
 }
 

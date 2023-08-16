@@ -7,6 +7,7 @@ import 'package:pokedex/features/pokemon/domain/repositories/pokemon_repository.
 import 'package:pokedex/features/pokemon/domain/use_cases/fetch_pokemon_details.dart';
 import 'package:pokedex/features/pokemon/domain/use_cases/fetch_pokemon_page.dart';
 import 'package:pokedex/features/pokemon/domain/use_cases/get_pokemon_details.dart';
+import 'package:pokedex/shared/analytics/domain/providers/analytic_providers.dart';
 
 final pokemonRemoteDataSourceProvider =
     Provider<PokemonRemoteDataSource>((ref) {
@@ -29,15 +30,27 @@ final pokemonListRepositoryProvider = Provider<PokemonRepository>((ref) {
 
 final fetchPokemonPageProvider = Provider<FetchPokemonPage>((ref) {
   final pokemonRepository = ref.watch(pokemonListRepositoryProvider);
-  return FetchPokemonPage(pokemonRepository: pokemonRepository);
+  final analyticRepository = ref.watch(analyticRepositoryProvider);
+  return FetchPokemonPage(
+    pokemonRepository: pokemonRepository,
+    analyticRepository: analyticRepository,
+  );
 });
 
 final fetchPokemonsDetailsProvider = Provider<FetchPokemonDetails>((ref) {
   final pokemonRepository = ref.watch(pokemonListRepositoryProvider);
-  return FetchPokemonDetails(pokemonRepository: pokemonRepository);
+  final analyticRepository = ref.watch(analyticRepositoryProvider);
+  return FetchPokemonDetails(
+    pokemonRepository: pokemonRepository,
+    analyticRepository: analyticRepository,
+  );
 });
 
 final getPokemonDetailsProvider = Provider<GetPokemonDetails>((ref) {
   final pokemonRepository = ref.watch(pokemonListRepositoryProvider);
-  return GetPokemonDetails(pokemonRepository: pokemonRepository);
+  final analyticRepository = ref.watch(analyticRepositoryProvider);
+  return GetPokemonDetails(
+    pokemonRepository: pokemonRepository,
+    analyticRepository: analyticRepository,
+  );
 });

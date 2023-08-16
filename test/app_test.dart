@@ -6,6 +6,8 @@ import 'package:pokedex/features/pokemon/data/repositories/fake_pokemon_reposito
 import 'package:pokedex/features/pokemon/domain/providers/pokemon_providers.dart';
 import 'package:pokedex/features/pokemon/presentation/screens/pokemon_list_screen.dart';
 import 'package:pokedex/features/splash_screen/presentation/splash_screen.dart';
+import 'package:pokedex/shared/analytics/data/repositories/fake_analytics_repository.dart';
+import 'package:pokedex/shared/analytics/domain/providers/analytic_providers.dart';
 import 'package:pokedex/shared/image_cacher/data/repositories/fake_image_cacher.dart';
 import 'package:pokedex/shared/image_cacher/domain/providers/image_cacher_provider.dart';
 
@@ -19,6 +21,9 @@ void main() {
           ),
           pokemonListRepositoryProvider.overrideWithValue(
             FakePokemonRepository(),
+          ),
+          analyticRepositoryProvider.overrideWithValue(
+            FakeAnalyticsRepository(),
           ),
         ],
         child: const App(),
