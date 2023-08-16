@@ -17,8 +17,9 @@ jobs:
       - run: |
           touch assets/env
           echo 'FIREBASE_API_KEY = ${{ secrets.FIREBASE_API_KEY }}' > assets/env
-          flutter pub get
-          flutter build web
+          cat assets/env
+      - run: flutter pub get
+      - run: flutter build web
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'
