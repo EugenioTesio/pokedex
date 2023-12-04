@@ -132,3 +132,5 @@ lib
 ## Live preview
 
 [https://pokedex-676eb.web.app/](https://pokedex-676eb.web.app)
+
+@Carlos
